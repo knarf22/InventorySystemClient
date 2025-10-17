@@ -1,3 +1,13 @@
 @import "tailwindcss";
-@import "tailwindcss/base";
-@import "tailwindcss/components";
+
+
+/* Define your theme colors here */
+@theme {
+  --color-primary: #7c3aed;
+  --color-secondary: #a78bfa;
+  --color-sidebar: #1e1b4b;
+  --color-sidebar-hover: #312e81;
+  --color-background: #f3f4f6;
+  --color-text: #e5e7eb;
+  --color-muted: #9ca3af;
+}
