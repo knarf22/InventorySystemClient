@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   LayoutDashboard,
   Package,
@@ -11,20 +12,34 @@ import {
   BarChart3,
   Clock,
   AlertTriangle,
+  ChevronRight,
+  ChevronDown,
   LogOut,
 } from "lucide-react";
 import SidebarItem from "./SidebarItem";
 import SidebarSubItem from "./SidebarSubitem";
 
 const Sidebar = () => {
-  const [activeTab, setActiveTab] = useState("Dashboard");
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [openMenu, setOpenMenu] = useState<string | null>(null);
+
+  // Active route detection
+  const currentPath = location.pathname;
 
   const toggleMenu = (menu: string) => {
     setOpenMenu(openMenu === menu ? null : menu);
   };
 
-  const isChildActive = (children: string[]) => children.includes(activeTab);
+  const handleNavigation = (path: string) => {
+    navigate(path);
+  };
+
+  const isActive = (path: string) => currentPath === path;
+
+  const isChildActive = (children: string[]) =>
+    children.some((childPath) => currentPath === childPath);
 
   return (
     <div className="flex h-screen font-jakarta bg-background text-text">
@@ -40,11 +55,8 @@ const Sidebar = () => {
             <SidebarItem
               icon={<LayoutDashboard />}
               label="Dashboard"
-              active={activeTab === "Dashboard"}
-              onClick={() => {
-                setActiveTab("Dashboard");
-                setOpenMenu(null);
-              }}
+              active={isActive("/")}
+              onClick={() => handleNavigation("/")}
             />
 
             {/* Products / Inventory */}
@@ -53,9 +65,10 @@ const Sidebar = () => {
               label="Products / Inventory"
               hasChildren
               isOpen={openMenu === "Products"}
-              active={
-                openMenu === "Products" || isChildActive(["Products", "Categories"])
+              arrowIcon={
+                openMenu === "Products" ? <ChevronDown /> : <ChevronRight />
               }
+              active={isActive("/products") || isChildActive(["/products", "/categories"])}
               onClick={() => toggleMenu("Products")}
             >
               {openMenu === "Products" && (
@@ -63,14 +76,14 @@ const Sidebar = () => {
                   <SidebarSubItem
                     icon={<Boxes size={16} />}
                     label="Products"
-                    active={activeTab === "Products"}
-                    onClick={() => setActiveTab("Products")}
+                    active={isActive("/products")}
+                    onClick={() => handleNavigation("/products")}
                   />
                   <SidebarSubItem
                     icon={<Tags size={16} />}
                     label="Categories"
-                    active={activeTab === "Categories"}
-                    onClick={() => setActiveTab("Categories")}
+                    active={isActive("/categories")}
+                    onClick={() => handleNavigation("/categories")}
                   />
                 </div>
               )}
@@ -82,7 +95,10 @@ const Sidebar = () => {
               label="Stock Transactions"
               hasChildren
               isOpen={openMenu === "Stock"}
-              active={openMenu === "Stock" || isChildActive(["Stock In", "Stock Out"])}
+              arrowIcon={
+                openMenu === "Stock" ? <ChevronDown /> : <ChevronRight />
+              }
+              active={isActive("/stock-in") || isActive("/stock-out")}
               onClick={() => toggleMenu("Stock")}
             >
               {openMenu === "Stock" && (
@@ -90,14 +106,14 @@ const Sidebar = () => {
                   <SidebarSubItem
                     icon={<ArrowDownCircle size={16} />}
                     label="Stock In"
-                    active={activeTab === "Stock In"}
-                    onClick={() => setActiveTab("Stock In")}
+                    active={isActive("/stock-in")}
+                    onClick={() => handleNavigation("/stock-in")}
                   />
                   <SidebarSubItem
                     icon={<ArrowUpCircle size={16} />}
                     label="Stock Out"
-                    active={activeTab === "Stock Out"}
-                    onClick={() => setActiveTab("Stock Out")}
+                    active={isActive("/stock-out")}
+                    onClick={() => handleNavigation("/stock-out")}
                   />
                 </div>
               )}
@@ -107,22 +123,16 @@ const Sidebar = () => {
             <SidebarItem
               icon={<Truck />}
               label="Suppliers"
-              active={activeTab === "Suppliers"}
-              onClick={() => {
-                setActiveTab("Suppliers");
-                setOpenMenu(null);
-              }}
+              active={isActive("/suppliers")}
+              onClick={() => handleNavigation("/suppliers")}
             />
 
             {/* Users / Roles */}
             <SidebarItem
               icon={<Users />}
               label="Users / Roles"
-              active={activeTab === "Users / Roles"}
-              onClick={() => {
-                setActiveTab("Users / Roles");
-                setOpenMenu(null);
-              }}
+              active={isActive("/users")}
+              onClick={() => handleNavigation("/users")}
             />
 
             {/* Reports / History */}
@@ -131,9 +141,13 @@ const Sidebar = () => {
               label="Reports / History"
               hasChildren
               isOpen={openMenu === "Reports"}
+              arrowIcon={
+                openMenu === "Reports" ? <ChevronDown /> : <ChevronRight />
+              }
               active={
-                openMenu === "Reports" ||
-                isChildActive(["Logs", "Stock Reports", "Low Stock Alerts"])
+                isActive("/logs") ||
+                isActive("/stock-reports") ||
+                isActive("/low-stock-alerts")
               }
               onClick={() => toggleMenu("Reports")}
             >
@@ -142,20 +156,20 @@ const Sidebar = () => {
                   <SidebarSubItem
                     icon={<Clock size={16} />}
                     label="Logs"
-                    active={activeTab === "Logs"}
-                    onClick={() => setActiveTab("Logs")}
+                    active={isActive("/logs")}
+                    onClick={() => handleNavigation("/logs")}
                   />
                   <SidebarSubItem
                     icon={<BarChart3 size={16} />}
                     label="Stock Reports"
-                    active={activeTab === "Stock Reports"}
-                    onClick={() => setActiveTab("Stock Reports")}
+                    active={isActive("/stock-reports")}
+                    onClick={() => handleNavigation("/stock-reports")}
                   />
                   <SidebarSubItem
                     icon={<AlertTriangle size={16} />}
                     label="Low Stock Alerts"
-                    active={activeTab === "Low Stock Alerts"}
-                    onClick={() => setActiveTab("Low Stock Alerts")}
+                    active={isActive("/low-stock-alerts")}
+                    onClick={() => handleNavigation("/low-stock-alerts")}
                   />
                 </div>
               )}
@@ -180,13 +194,7 @@ const Sidebar = () => {
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col p-8">
-        <div className="border-b border-gray-200 pb-4 mb-6">
-          <h2 className="text-2xl font-semibold text-primary">{activeTab}</h2>
-        </div>
-        <div className="flex-1 text-gray-600 text-lg">{activeTab} page</div>
-      </div>
+
     </div>
   );
 };

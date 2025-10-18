@@ -6,6 +6,7 @@ export interface SidebarItemProps {
   children?: React.ReactNode;
   isOpen?: boolean;
   hasChildren?: boolean;
+  arrowIcon?: React.ReactNode; // ✅ add this line
 }
 
 export interface SidebarSubItemProps {

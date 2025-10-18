@@ -9,6 +9,7 @@ const SidebarItem = ({
   children,
   isOpen,
   hasChildren,
+  
 }: SidebarItemProps) => {
   return (
     <div>
