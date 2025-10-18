@@ -1,10 +1,10 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import SidebarTabs from './components/Sidebar'
+import Sidebar from './layout/Sidebar/Sidebar'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-      <SidebarTabs />
+      <Sidebar />
   </StrictMode>,
 )
