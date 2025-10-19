@@ -149,7 +149,7 @@ const ProductsPage = () => {
             <div className="mt-4 flex justify-end">
                 <button
                     onClick={() => handleOpenModal()}
-                    className="bg-primary text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-primaryHover transition"
+                    className="bg-primary text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-primaryHover transition cursor-pointer"
                 >
                     <Plus size={18} /> Add New Product
                 </button>
@@ -219,13 +219,13 @@ const ProductsPage = () => {
                                 <button
                                     type="button"
                                     onClick={handleCloseModal}
-                                    className="px-4 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-100 transition"
+                                    className="px-4 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-100 transition cursor-pointer"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primaryHover transition"
+                                    className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primaryHover transition cursor-pointer"
                                 >
                                     {editingProduct ? "Update" : "Add"}
                                 </button>

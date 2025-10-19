@@ -32,13 +32,13 @@ const ProductTable = ({ products, onEdit, onDelete }: ProductTableProps) => {
             <td className="border p-2 text-center">₱{p.price.toFixed(2)}</td>
             <td className="border p-2 text-center">
               <button
-                className="text-blue-600 hover:underline mr-2"
+                className="text-blue-600 hover:underline mr-2 cursor-pointer"
                 onClick={() => onEdit(p)}
               >
                 Edit
               </button>
               <button
-                className="text-red-600 hover:underline"
+                className="text-red-600 hover:underline cursor-pointer"
                 onClick={() => onDelete(p.id)}
               >
                 Delete

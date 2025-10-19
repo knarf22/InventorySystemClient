@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { ROUTES } from "./routes";
 import Layout from "../layout/Layout/Layout";
+import NotFoundPage from "../pages/NotFound";
 
 const AppRoutes = () => {
   return (
@@ -10,6 +11,7 @@ const AppRoutes = () => {
           <Route key={path} path={path.replace("/", "")} element={element} />
         ))}
       </Route>
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 };
