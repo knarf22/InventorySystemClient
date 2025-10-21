@@ -2,110 +2,89 @@ import { useEffect, useState } from "react";
 import type { Product } from "./ProductsPage";
 
 interface ProductFormProps {
-  onSubmit: (product: Product) => void;
   editingProduct: Product | null;
+  onSubmit: (product: Product) => void;
   onCancel: () => void;
 }
 
-const ProductForm = ({ onSubmit, editingProduct, onCancel }: ProductFormProps) => {
-  const [formData, setFormData] = useState<Omit<Product, "id">>({
+const ProductForm = ({ editingProduct, onSubmit, onCancel }: ProductFormProps) => {
+  const [formData, setFormData] = useState({
     name: "",
     sku: "",
     category: "",
-    quantity: 0,
-    price: 0,
+    quantity: "",
+    price: "",
   });
 
   useEffect(() => {
     if (editingProduct) {
-      const { id, ...rest } = editingProduct;
-      setFormData(rest);
+      setFormData({
+        name: editingProduct.name,
+        sku: editingProduct.sku,
+        category: editingProduct.category,
+        quantity: editingProduct.quantity.toString(),
+        price: editingProduct.price.toString(),
+      });
     } else {
       setFormData({
         name: "",
         sku: "",
         category: "",
-        quantity: 0,
-        price: 0,
+        quantity: "",
+        price: "",
       });
     }
   }, [editingProduct]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: name === "quantity" || name === "price" ? Number(value) : value,
-    }));
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit({ ...formData, id: editingProduct ? editingProduct.id : Date.now() });
+    const newProduct: Product = {
+      id: editingProduct ? editingProduct.id : Date.now(),
+      name: formData.name,
+      sku: formData.sku,
+      category: formData.category,
+      quantity: Number(formData.quantity),
+      price: Number(formData.price),
+    };
+    onSubmit(newProduct);
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="bg-white shadow-md rounded-lg p-4 mb-6 grid grid-cols-2 gap-4"
-    >
-      <input
-        type="text"
-        name="name"
-        placeholder="Product Name"
-        value={formData.name}
-        onChange={handleChange}
-        className="border p-2 rounded"
-      />
-      <input
-        type="text"
-        name="sku"
-        placeholder="SKU"
-        value={formData.sku}
-        onChange={handleChange}
-        className="border p-2 rounded"
-      />
-      <input
-        type="text"
-        name="category"
-        placeholder="Category"
-        value={formData.category}
-        onChange={handleChange}
-        className="border p-2 rounded"
-      />
-      <input
-        type="number"
-        name="quantity"
-        placeholder="Quantity"
-        value={formData.quantity}
-        onChange={handleChange}
-        className="border p-2 rounded"
-      />
-      <input
-        type="number"
-        name="price"
-        placeholder="Price"
-        value={formData.price}
-        onChange={handleChange}
-        className="border p-2 rounded"
-      />
+    <form onSubmit={handleSubmit} className="space-y-3">
+      {["name", "sku", "category", "quantity", "price"].map((field) => (
+        <input
+          key={field}
+          type={field === "quantity" || field === "price" ? "number" : "text"}
+          name={field}
+          placeholder={
+            field.charAt(0).toUpperCase() + field.slice(1).replace("_", " ")
+          }
+          value={(formData as any)[field]}
+          onChange={handleChange}
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 
+            placeholder-gray-400 text-gray-900
+            focus:ring-2 focus:ring-primary focus:outline-none"
+        />
+      ))}
 
-      <div className="col-span-2 flex gap-2">
+      <div className="flex justify-end gap-2 pt-3">
+        <button
+          type="button"
+          onClick={onCancel}
+          className="px-4 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-100 transition cursor-pointer"
+        >
+          Cancel
+        </button>
         <button
           type="submit"
-          className="bg-primary text-white px-4 py-2 rounded hover:opacity-90 transition"
+          className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primaryHover transition cursor-pointer"
         >
-          {editingProduct ? "Update Product" : "Add Product"}
+          {editingProduct ? "Update" : "Add"}
         </button>
-        {editingProduct && (
-          <button
-            type="button"
-            onClick={onCancel}
-            className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
-          >
-            Cancel
-          </button>
-        )}
       </div>
     </form>
   );

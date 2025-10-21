@@ -1,3 +1,4 @@
+import { Pencil, Trash2 } from "lucide-react";
 import type { Product } from "./ProductsPage";
 
 interface ProductTableProps {
@@ -7,45 +8,56 @@ interface ProductTableProps {
 }
 
 const ProductTable = ({ products, onEdit, onDelete }: ProductTableProps) => {
-  if (products.length === 0)
-    return <p className="text-gray-500">No products added yet.</p>;
-
   return (
-    <table className="w-full border-collapse border border-gray-200 shadow-sm text-sm">
-      <thead className="bg-gray-100">
+    <table className="min-w-full text-sm text-gray-700">
+      <thead className="bg-gray-100 text-gray-600 uppercase text-xs">
         <tr>
-          <th className="border p-2 text-left">SKU</th>
-          <th className="border p-2 text-left">Name</th>
-          <th className="border p-2 text-left">Category</th>
-          <th className="border p-2 text-center">Quantity</th>
-          <th className="border p-2 text-center">Price</th>
-          <th className="border p-2 text-center">Actions</th>
+          <th className="py-3 px-4 text-left">Product Name</th>
+          <th className="py-3 px-4 text-left">SKU</th>
+          <th className="py-3 px-4 text-left">Category</th>
+          <th className="py-3 px-4 text-left">Quantity</th>
+          <th className="py-3 px-4 text-left">Price</th>
+          <th className="py-3 px-4 text-center w-24">Actions</th>
         </tr>
       </thead>
       <tbody>
-        {products.map((p) => (
-          <tr key={p.id} className="hover:bg-gray-50">
-            <td className="border p-2">{p.sku}</td>
-            <td className="border p-2">{p.name}</td>
-            <td className="border p-2">{p.category}</td>
-            <td className="border p-2 text-center">{p.quantity}</td>
-            <td className="border p-2 text-center">₱{p.price.toFixed(2)}</td>
-            <td className="border p-2 text-center">
-              <button
-                className="text-blue-600 hover:underline mr-2 cursor-pointer"
-                onClick={() => onEdit(p)}
-              >
-                Edit
-              </button>
-              <button
-                className="text-red-600 hover:underline cursor-pointer"
-                onClick={() => onDelete(p.id)}
-              >
-                Delete
-              </button>
+        {products.length === 0 ? (
+          <tr>
+            <td
+              colSpan={6}
+              className="text-center py-6 text-gray-400 italic"
+            >
+              No products added yet.
             </td>
           </tr>
-        ))}
+        ) : (
+          products.map((product) => (
+            <tr
+              key={product.id}
+              className="border-b hover:bg-gray-50 transition"
+            >
+              <td className="py-3 px-4">{product.name}</td>
+              <td className="py-3 px-4">{product.sku}</td>
+              <td className="py-3 px-4">{product.category}</td>
+              <td className="py-3 px-4">{product.quantity}</td>
+              <td className="py-3 px-4">₱{product.price.toFixed(2)}</td>
+              <td className="py-3 px-4 text-center flex justify-center gap-3">
+                <button
+                  onClick={() => onEdit(product)}
+                  className="text-blue-500 hover:text-blue-700 transition"
+                >
+                  <Pencil size={18} />
+                </button>
+                <button
+                  onClick={() => onDelete(product.id)}
+                  className="text-red-500 hover:text-red-700 transition"
+                >
+                  <Trash2 size={18} />
+                </button>
+              </td>
+            </tr>
+          ))
+        )}
       </tbody>
     </table>
   );
