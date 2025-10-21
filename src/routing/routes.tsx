@@ -1,5 +1,6 @@
 // (You can add StockTransactionsPage, SuppliersPage, etc. later)
 
+import CategoriesPage from "../pages/Categories/CategoriesPage";
 import ProductsPage from "../pages/Products/ProductsPage";
 
 export interface RouteType {
@@ -9,4 +10,5 @@ export interface RouteType {
 }
 export const ROUTES: RouteType[] = [
   { path: "/products", element: <ProductsPage /> },
+  { path: "/categories", element: <CategoriesPage /> },
 ];
