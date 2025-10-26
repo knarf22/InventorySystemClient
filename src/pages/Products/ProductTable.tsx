@@ -1,5 +1,5 @@
 import { Pencil, Trash2 } from "lucide-react";
-import type { Product } from "./ProductsPage";
+import type { Product } from "../../api/productAPI";
 
 interface ProductTableProps {
   products: Product[];
@@ -8,6 +8,8 @@ interface ProductTableProps {
 }
 
 const ProductTable = ({ products, onEdit, onDelete }: ProductTableProps) => {
+  console.log(products);
+
   return (
     <table className="min-w-full text-sm text-gray-700">
       <thead className="bg-gray-100 text-gray-600 uppercase text-xs">
@@ -23,22 +25,19 @@ const ProductTable = ({ products, onEdit, onDelete }: ProductTableProps) => {
       <tbody>
         {products.length === 0 ? (
           <tr>
-            <td
-              colSpan={6}
-              className="text-center py-6 text-gray-400 italic"
-            >
+            <td colSpan={6} className="text-center py-6 text-gray-400 italic">
               No products added yet.
             </td>
           </tr>
         ) : (
           products.map((product) => (
             <tr
-              key={product.id}
+              key={product.productID}
               className="border-b hover:bg-gray-50 transition"
             >
-              <td className="py-3 px-4">{product.name}</td>
+              <td className="py-3 px-4">{product.productName}</td>
               <td className="py-3 px-4">{product.sku}</td>
-              <td className="py-3 px-4">{product.category}</td>
+              <td className="py-3 px-4">{product.category?.categoryName || "—"}</td>
               <td className="py-3 px-4">{product.quantity}</td>
               <td className="py-3 px-4">₱{product.price.toFixed(2)}</td>
               <td className="py-3 px-4 text-center flex justify-center gap-3">
@@ -49,7 +48,7 @@ const ProductTable = ({ products, onEdit, onDelete }: ProductTableProps) => {
                   <Pencil size={18} />
                 </button>
                 <button
-                  onClick={() => onDelete(product.id)}
+                  onClick={() => onDelete(product.productID)}
                   className="text-red-500 hover:text-red-700 transition"
                 >
                   <Trash2 size={18} />

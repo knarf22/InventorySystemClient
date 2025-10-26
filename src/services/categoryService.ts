@@ -1,11 +1,28 @@
 import {
-  getCategories as apiGet,
-  createCategory as apiCreate,
-  updateCategory as apiUpdate,
-  deleteCategory as apiDelete,
+  getCategories as get,
+  createCategory as create,
+  updateCategory as update,
+  deleteCategory as remove,
 } from "../api/categoryAPI";
 
-export const getCategories = apiGet;
-export const createCategory = apiCreate;
-export const updateCategory = apiUpdate;
-export const deleteCategory = apiDelete;
+import type { Category } from "../api/categoryAPI";
+
+// 🧩 Get all categories
+export async function getCategories(): Promise<Category[]> {
+  return await get();
+}
+
+// 🧩 Create new category
+export async function createCategory(category: Omit<Category, "categoryID">): Promise<Category> {
+  return await create(category);
+}
+
+// 🧩 Update category
+export async function updateCategory(id: number, category: Category): Promise<void> {
+  return await update(id, category);
+}
+
+// 🧩 Delete category
+export async function deleteCategory(id: number): Promise<void> {
+  return await remove(id);
+}

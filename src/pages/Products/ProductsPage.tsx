@@ -1,43 +1,35 @@
-import { useState } from "react";
 import { Plus } from "lucide-react";
 import ProductTable from "./ProductTable";
 import ProductForm from "./ProductForm";
-
-export interface Product {
-  id: number;
-  name: string;
-  sku: string;
-  category: string;
-  quantity: number;
-  price: number;
-}
+import { useState } from "react";
+import { useProduct } from "../../hooks/useProduct";
 
 const ProductsPage = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const { products, addProduct, editProduct, removeProduct, loading } = useProduct();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [editingProduct, setEditingProduct] = useState<any>(null);
 
-  const handleOpenModal = (product?: Product) => {
+  const handleOpenModal = (product?: any) => {
     setEditingProduct(product || null);
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => setIsModalOpen(false);
 
-  const handleSubmit = (product: Product) => {
+  const handleSubmit = async (product: any) => {
     if (editingProduct) {
-      setProducts((prev) =>
-        prev.map((p) => (p.id === editingProduct.id ? product : p))
-      );
+      await editProduct(editingProduct.productID, product);
     } else {
-      setProducts((prev) => [...prev, { ...product, id: Date.now() }]);
+      await addProduct(product);
     }
     setIsModalOpen(false);
   };
 
-  const handleDelete = (id: number) => {
-    setProducts((prev) => prev.filter((p) => p.id !== id));
+  const handleDelete = async (id: number) => {
+    await removeProduct(id);
   };
+
+  if (loading) return <div className="p-6">Loading...</div>;
 
   return (
     <div className="p-6">
@@ -45,18 +37,14 @@ const ProductsPage = () => {
 
       {/* Table */}
       <div className="bg-white rounded-2xl shadow-md overflow-hidden">
-        <ProductTable
-          products={products}
-          onEdit={handleOpenModal}
-          onDelete={handleDelete}
-        />
+        <ProductTable products={products} onEdit={handleOpenModal} onDelete={handleDelete} />
       </div>
 
-      {/* Add New Button */}
+      {/* Add Button */}
       <div className="mt-4 flex justify-end">
         <button
           onClick={() => handleOpenModal()}
-          className="bg-primary text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-primaryHover transition cursor-pointer"
+          className="bg-primary text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-primaryHover transition"
         >
           <Plus size={18} /> Add New Product
         </button>
