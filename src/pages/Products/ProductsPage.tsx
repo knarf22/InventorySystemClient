@@ -29,7 +29,7 @@ const ProductsPage = () => {
     await removeProduct(id);
   };
 
-  if (loading) return <div className="p-6">Loading...</div>;
+  if (loading) return <div className="p-6 text-black">Loading...</div>;
 
   return (
     <div className="p-6">

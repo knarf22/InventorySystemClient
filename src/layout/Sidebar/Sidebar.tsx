@@ -15,6 +15,8 @@ import {
   ChevronRight,
   ChevronDown,
   LogOut,
+  ShoppingCart,
+  FileBarChart2,
 } from "lucide-react";
 import SidebarItem from "./SidebarItem";
 import SidebarSubItem from "./SidebarSubitem";
@@ -22,7 +24,6 @@ import SidebarSubItem from "./SidebarSubitem";
 const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
   const [openMenu, setOpenMenu] = useState<string | null>(null);
 
   // Active route detection
@@ -68,7 +69,9 @@ const Sidebar = () => {
               arrowIcon={
                 openMenu === "Products" ? <ChevronDown /> : <ChevronRight />
               }
-              active={isActive("/products") || isChildActive(["/products", "/categories"])}
+              active={
+                isActive("/products") || isChildActive(["/products", "/categories"])
+              }
               onClick={() => toggleMenu("Products")}
             >
               {openMenu === "Products" && (
@@ -84,6 +87,36 @@ const Sidebar = () => {
                     label="Categories"
                     active={isActive("/categories")}
                     onClick={() => handleNavigation("/categories")}
+                  />
+                </div>
+              )}
+            </SidebarItem>
+            
+            {/* Sales */}
+            <SidebarItem
+              icon={<ShoppingCart />}
+              label="Sales"
+              hasChildren
+              isOpen={openMenu === "Sales"}
+              arrowIcon={
+                openMenu === "Sales" ? <ChevronDown /> : <ChevronRight />
+              }
+              active={isActive("/sales") || isActive("/sales-reports")}
+              onClick={() => toggleMenu("Sales")}
+            >
+              {openMenu === "Sales" && (
+                <div className="ml-6 mt-2 space-y-1 text-sm">
+                  <SidebarSubItem
+                    icon={<ShoppingCart size={16} />}
+                    label="Sales Transactions"
+                    active={isActive("/sales")}
+                    onClick={() => handleNavigation("/sales")}
+                  />
+                  <SidebarSubItem
+                    icon={<FileBarChart2 size={16} />}
+                    label="Sales Reports"
+                    active={isActive("/sales-reports")}
+                    onClick={() => handleNavigation("/sales-reports")}
                   />
                 </div>
               )}
@@ -193,8 +226,6 @@ const Sidebar = () => {
           <LogOut className="w-5 h-5 text-secondary cursor-pointer hover:text-primary transition" />
         </div>
       </div>
-
-
     </div>
   );
 };

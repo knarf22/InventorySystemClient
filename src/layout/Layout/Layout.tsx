@@ -3,7 +3,7 @@ import Sidebar from "../Sidebar/Sidebar";
 
 const Layout = () => {
   return (
-    <div className="flex h-screen font-jakarta bg-background text-text">
+    <div className="flex h-screen font-jakarta bg-background text-black">
       {/* Sidebar */}
       <Sidebar />
 
