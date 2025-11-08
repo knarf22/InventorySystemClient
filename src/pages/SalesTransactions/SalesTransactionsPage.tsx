@@ -1,9 +1,10 @@
+import SalesPage from "./SalesPage"
 
 const SalesTransactionsPage = () => {
   return (
-    <div>
-      Sales Transactions Page
-    </div>
+    <>
+      <SalesPage />
+    </>
   )
 }
 
