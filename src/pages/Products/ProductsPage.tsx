@@ -44,7 +44,13 @@ const ProductsPage = () => {
       <div className="mt-4 flex justify-end">
         <button
           onClick={() => handleOpenModal()}
-          className="bg-primary text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-primaryHover transition"
+          // className="bg-primary text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-primary Hover transition cursor-pointer"
+          className="bg-primary text-white
+           px-4 py-2 rounded-lg flex 
+           hover:bg-gray-200
+           hover:text-indigo-600
+           hover:border-1
+           items-center gap-2  cursor-pointer"
         >
           <Plus size={18} /> Add New Product
         </button>

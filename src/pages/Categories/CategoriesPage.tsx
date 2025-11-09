@@ -33,16 +33,16 @@ const CategoriesPage = () => {
     const payload =
       editingCategory === null
         ? {
-            // ➕ New category → POST
-            categoryName: category.name,
-            description: category.description,
-          }
+          // ➕ New category → POST
+          categoryName: category.name,
+          description: category.description,
+        }
         : {
-            // ✏️ Editing existing → PUT
-            categoryID: category.id,
-            categoryName: category.name,
-            description: category.description,
-          };
+          // ✏️ Editing existing → PUT
+          categoryID: category.id,
+          categoryName: category.name,
+          description: category.description,
+        };
 
     await saveCategory(payload);
     setIsModalOpen(false);
@@ -90,7 +90,12 @@ const CategoriesPage = () => {
       <div className="mt-4 flex justify-end">
         <button
           onClick={handleOpenModal}
-          className="bg-primary text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-primaryHover transition"
+          className="bg-primary text-white
+           px-4 py-2 rounded-lg flex
+           hover:bg-gray-200
+           hover:text-indigo-600
+           hover:border-1
+           items-center gap-2  cursor-pointer"
         >
           <Plus size={18} /> Add New Category
         </button>

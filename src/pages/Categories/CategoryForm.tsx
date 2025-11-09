@@ -68,7 +68,7 @@ const CategoryForm = ({ onSubmit, editingCategory, onCancel }: CategoryFormProps
         </button>
         <button
           type="submit"
-          className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primaryHover transition cursor-pointer"
+          className="px-4 py-2 bg-primary text-white rounded-lg hover:opacity-75 hover:text-black transition cursor-pointer"
         >
           {editingCategory ? "Update" : "Add"}
         </button>

@@ -43,15 +43,21 @@ const ProductTable = ({ products, onEdit, onDelete }: ProductTableProps) => {
               <td className="py-3 px-4 text-center flex justify-center gap-3">
                 <button
                   onClick={() => onEdit(product)}
-                  className="text-blue-500 hover:text-blue-700 transition"
+                  className="text-blue-500 hover:text-blue-700 transition cursor-pointer group"
                 >
-                  <Pencil size={18} />
+                  <Pencil
+                    size={18}
+                    className="fill-transparent stroke-current transition-colors group-hover:fill-blue-500 group-hover:stroke-transparent"
+                  />
                 </button>
                 <button
                   onClick={() => onDelete(product.productID)}
-                  className="text-red-500 hover:text-red-700 transition"
+                  className="text-red-500 hover:text-red-700 transition cursor-pointer group"
                 >
-                  <Trash2 size={18} />
+                  <Trash2 
+                  size={18}
+                  className="fill-transparent stroke-current transition-colors group-hover:fill-red-500 group-hover:stroke-transparent"
+                  />
                 </button>
               </td>
             </tr>
