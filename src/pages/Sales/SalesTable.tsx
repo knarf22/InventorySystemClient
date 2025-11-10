@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
 interface SaleItem {
-  productId : number;
+  productId: number;
   saleItemID: number;
   productName: string;
   quantity: number;
@@ -49,7 +49,10 @@ const SalesTable = ({ sales }: SalesTableProps) => {
             <React.Fragment key={sale.saleID}>
               <tr
                 key={sale.saleID}
-                className="border-b hover:bg-gray-50 transition"
+                className="border-b hover:bg-gray-50 transition cursor-pointer"
+                onClick={() =>
+                  setExpanded(expanded === sale.saleID ? null : sale.saleID)
+                }
               >
                 <td className="py-3 px-4">{sale.transactionNo}</td>
                 <td className="py-3 px-4">{sale.createdBy}</td>
