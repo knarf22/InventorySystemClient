@@ -10,6 +10,11 @@ export const API_ROUTES = {
   CREATE_PRODUCT: "/api/Products",
   UPDATE_PRODUCT: (id: number) => `/api/Products/${id}`,
   DELETE_PRODUCT: (id: number) => `/api/Products/${id}`,
+
+
+  // ✅ Sale routes
+  GET_SALES: "/api/Sales",
+  CREATE_SALE: "/api/Sales/create",
 };
 
 export const API_URL = import.meta.env.VITE_API_URL ?? "https://localhost:7270";

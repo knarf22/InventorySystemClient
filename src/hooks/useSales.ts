@@ -1,26 +1,33 @@
 // src/hooks/useSales.ts
 import { useEffect, useState } from "react";
-import { getSales, createSale, type Sale } from "../api/saleAPI";
+import { createSale, getSales } from "../services/saleService";
+import type { CreateSaleDto, Sale } from "../api/saleAPI";
 
 export function useSales() {
   const [sales, setSales] = useState<Sale[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    loadSales();
+    fetchSales();
   }, []);
 
-  const loadSales = async () => {
-    setLoading(true);
-    const data = await getSales();
-    setSales(data);
-    setLoading(false);
+  const fetchSales = async () => {
+    try {
+      const data = await getSales();
+      setSales(data);
+    } catch (error) {
+      console.error("Error fetching sales:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const addSale = async (newSale: Omit<Sale, "saleID" | "transactionNo">) => {
+  const addSale = async (newSale: CreateSaleDto) => {
     const sale = await createSale(newSale);
     setSales((prev) => [...prev, sale]);
   };
+
+
 
   return {
     sales,

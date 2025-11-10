@@ -8,8 +8,6 @@ interface ProductTableProps {
 }
 
 const ProductTable = ({ products, onEdit, onDelete }: ProductTableProps) => {
-  console.log(products);
-
   return (
     <table className="min-w-full text-sm text-gray-700">
       <thead className="bg-gray-100 text-gray-600 uppercase text-xs">

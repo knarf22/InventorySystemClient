@@ -1,7 +1,8 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
 interface SaleItem {
+  productId : number;
   saleItemID: number;
   productName: string;
   quantity: number;
@@ -45,7 +46,7 @@ const SalesTable = ({ sales }: SalesTableProps) => {
           </tr>
         ) : (
           sales.map((sale) => (
-            <>
+            <React.Fragment key={sale.saleID}>
               <tr
                 key={sale.saleID}
                 className="border-b hover:bg-gray-50 transition"
@@ -63,7 +64,7 @@ const SalesTable = ({ sales }: SalesTableProps) => {
                     onClick={() =>
                       setExpanded(expanded === sale.saleID ? null : sale.saleID)
                     }
-                    className="text-primary hover:text-primaryHover"
+                    className="text-primary hover:text-primaryHover hover:scale-105 transition cursor-pointer"
                   >
                     {expanded === sale.saleID ? (
                       <ChevronUp size={18} />
@@ -76,7 +77,7 @@ const SalesTable = ({ sales }: SalesTableProps) => {
 
               {/* Expandable Row */}
               {expanded === sale.saleID && (
-                <tr className="bg-gray-50">
+                <tr className="bg-gray-50" key={sale.saleID}>
                   <td colSpan={5} className="p-4">
                     <table className="w-full text-xs border">
                       <thead className="bg-gray-100">
@@ -89,7 +90,7 @@ const SalesTable = ({ sales }: SalesTableProps) => {
                       </thead>
                       <tbody>
                         {sale.items.map((item) => (
-                          <tr key={item.saleItemID} className="border-t">
+                          <tr key={item.productId} className="border-t">
                             <td className="py-2 px-3">{item.productName}</td>
                             <td className="py-2 px-3 text-right">{item.quantity}</td>
                             <td className="py-2 px-3 text-right">
@@ -110,7 +111,7 @@ const SalesTable = ({ sales }: SalesTableProps) => {
                   </td>
                 </tr>
               )}
-            </>
+            </React.Fragment>
           ))
         )}
       </tbody>

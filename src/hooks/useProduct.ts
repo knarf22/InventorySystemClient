@@ -26,7 +26,7 @@ export const useProduct = () => {
     const newProduct = await createProduct(product);
     setProducts((prev) => [...prev, newProduct]);
   };
-
+ 
   const editProduct = async (id: number, product: Product) => {
     await updateProduct(id, product);
     setProducts((prev) => prev.map((p) => (p.productID === id ? product : p)));

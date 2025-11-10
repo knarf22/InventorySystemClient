@@ -15,6 +15,8 @@ const SalesPage = () => {
 
   if (loading) return <div className="p-6">Loading sales...</div>;
 
+
+  console.log("sale",sales)
   return (
     <div className="p-6">
       <h2 className="text-2xl font-semibold text-primary mb-4">Sales</h2>
