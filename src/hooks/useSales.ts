@@ -23,11 +23,19 @@ export function useSales() {
   };
 
   const addSale = async (newSale: CreateSaleDto) => {
-    const sale = await createSale(newSale);
-    setSales((prev) => [...prev, sale]);
+    // const sale = await createSale(newSale);
+    // setSales((prev) => [...prev, sale]);
+    try {
+      // 1. Send the creation request
+      await createSale(newSale);
+      // 2. Refresh the entire list from the server to get the new sale and all necessary data
+      await fetchSales();
+    } catch (error) {
+      console.error("Error creating or refreshing sales:", error);
+    } finally {
+      setLoading(false);
+    }
   };
-
-
 
   return {
     sales,
