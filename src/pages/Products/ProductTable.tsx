@@ -37,7 +37,7 @@ const ProductTable = ({ products, onEdit, onDelete }: ProductTableProps) => {
               <td className="py-3 px-4">{product.sku}</td>
               <td className="py-3 px-4">{product.category?.categoryName || "—"}</td>
               <td className="py-3 px-4">{product.quantity}</td>
-              <td className="py-3 px-4">₱{product.price.toFixed(2)}</td>
+              <td className="py-3 px-4">{(product.price).toLocaleString('en-PH', { style: 'currency', currency: 'PHP' })}</td>
               <td className="py-3 px-4 text-center flex justify-center gap-3">
                 <button
                   onClick={() => onEdit(product)}
@@ -52,9 +52,9 @@ const ProductTable = ({ products, onEdit, onDelete }: ProductTableProps) => {
                   onClick={() => onDelete(product.productID)}
                   className="text-red-500 hover:text-red-700 transition cursor-pointer group"
                 >
-                  <Trash2 
-                  size={18}
-                  className="fill-transparent stroke-current transition-colors group-hover:fill-red-500 group-hover:stroke-transparent"
+                  <Trash2
+                    size={18}
+                    className="fill-transparent stroke-current transition-colors group-hover:fill-red-500 group-hover:stroke-transparent"
                   />
                 </button>
               </td>
