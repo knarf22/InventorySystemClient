@@ -60,7 +60,7 @@ const SalesTable = ({ sales }: SalesTableProps) => {
                   {new Date(sale.createdAt).toLocaleDateString()}
                 </td>
                 <td className="py-3 px-4 text-right">
-                  ₱{sale.totalAmount.toFixed(2)}
+                  {(sale.totalAmount).toLocaleString('en-PH', { style: 'currency', currency: 'PHP' })}
                 </td>
                 <td className="py-3 px-4 text-center">
                   <button
@@ -97,10 +97,11 @@ const SalesTable = ({ sales }: SalesTableProps) => {
                             <td className="py-2 px-3">{item.productName}</td>
                             <td className="py-2 px-3 text-right">{item.quantity}</td>
                             <td className="py-2 px-3 text-right">
-                              ₱{item.unitPrice.toFixed(2)}
+                              {(item.unitPrice).toLocaleString('en-PH', { style: 'currency', currency: 'PHP' })}
                             </td>
                             <td className="py-2 px-3 text-right">
-                              ₱{(item.quantity * item.unitPrice).toFixed(2)}
+                              {/* ₱{(item.quantity * item.unitPrice).toFixed(2)} */}
+                              {(item.quantity * item.unitPrice).toLocaleString('en-PH', { style: 'currency', currency: 'PHP' })}
                             </td>
                           </tr>
                         ))}
