@@ -25,7 +25,7 @@ interface SalesTableProps {
 
 const SalesTable = ({ sales }: SalesTableProps) => {
   const [expanded, setExpanded] = useState<number | null>(null);
-
+  console.log(sales);
   return (
     <table className="min-w-full text-sm text-gray-700">
       <thead className="bg-gray-100 text-gray-600 uppercase text-xs">
@@ -46,7 +46,7 @@ const SalesTable = ({ sales }: SalesTableProps) => {
           </tr>
         ) : (
           sales.map((sale) => (
-            <React.Fragment key={sale.saleID}>
+            <React.Fragment key={`main-${sale.saleID}`}>
               <tr
                 key={sale.saleID}
                 className="border-b hover:bg-gray-50 transition cursor-pointer"
@@ -80,7 +80,7 @@ const SalesTable = ({ sales }: SalesTableProps) => {
 
               {/* Expandable Row */}
               {expanded === sale.saleID && (
-                <tr className="bg-gray-50" key={sale.saleID}>
+                <tr className="bg-gray-50" key={`expanded-${sale.saleID}`}>
                   <td colSpan={5} className="p-4">
                     <table className="w-full text-xs border">
                       <thead className="bg-gray-100">
@@ -93,7 +93,7 @@ const SalesTable = ({ sales }: SalesTableProps) => {
                       </thead>
                       <tbody>
                         {sale.items.map((item) => (
-                          <tr key={item.productId} className="border-t">
+                          <tr key={item.saleItemID} className="border-t">
                             <td className="py-2 px-3">{item.productName}</td>
                             <td className="py-2 px-3 text-right">{item.quantity}</td>
                             <td className="py-2 px-3 text-right">
