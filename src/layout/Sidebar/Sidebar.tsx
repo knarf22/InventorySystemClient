@@ -152,14 +152,6 @@ const Sidebar = () => {
               )}
             </SidebarItem>
 
-            {/* Suppliers */}
-            <SidebarItem
-              icon={<Truck />}
-              label="Suppliers"
-              active={isActive("/suppliers")}
-              onClick={() => handleNavigation("/suppliers")}
-            />
-
             {/* Users / Roles */}
             <SidebarItem
               icon={<Users />}
