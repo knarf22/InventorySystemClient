@@ -1,6 +1,62 @@
 import { Package, Layers, DollarSign, AlertTriangle } from "lucide-react";
+import { use, useEffect, useState } from "react";
+import { useSales } from "../../hooks/useSales";
+import { useCategory } from "../../hooks/useCategory";
+import { useProduct } from "../../hooks/useProduct";
+import type { Sale } from "../../api/saleAPI";
+import { formatDate } from "../../utils/formatDate";
 
 const DashboardPage = () => {
+
+  const { totalSales, sales, fetchTotalSales, fetchSales } = useSales();
+  const { totalCategories, fetchTotalCategories } = useCategory();
+  const { totalProducts, lowStockProducts, fetchTotalProducts, fetchLowStockProducts } = useProduct();
+  const [latestSales, setLatestSales] = useState<Sale[]>([]);
+  const [topSellingProducts, setTopSellingProducts] = useState<{ name: string; sold: number }[]>([]);
+
+  const getLatestSales = () => {
+    return sales
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+      .slice(0, 3);
+  }
+
+  const getTopSellingProducts = () => {
+    // Placeholder logic for top selling products
+    // In a real scenario, this would likely involve more complex data processing
+    const productSalesMap: { [key: string]: number } = {};
+    sales.forEach(sale => {
+      sale.items.forEach(item => {
+        if (productSalesMap[item.productName]) {
+          productSalesMap[item.productName] += item.quantity;
+        } else {
+          productSalesMap[item.productName] = item.quantity;
+        }
+      });
+    });
+
+    const sortedProducts = Object.entries(productSalesMap)
+      .sort(([, a], [, b]) => b - a)
+      .slice(0, 5)
+      .map(([name, sold]) => ({ name, sold }));
+    return sortedProducts;
+  }
+
+  useEffect(() => {
+    fetchTotalSales();
+    fetchTotalCategories();
+    fetchTotalProducts();
+    fetchLowStockProducts();
+    fetchSales();
+    setLatestSales(getLatestSales());
+
+  }, [])
+  useEffect(() => {
+    setLatestSales(getLatestSales());
+    setTopSellingProducts(getTopSellingProducts());
+  }, [sales])
+  console.log(latestSales)
+  console.log(topSellingProducts)
+
   return (
     <div className="p-6 space-y-6">
       {/* Title */}
@@ -12,7 +68,7 @@ const DashboardPage = () => {
         <div className="bg-white shadow-md rounded-2xl p-5 flex items-center justify-between">
           <div>
             <p className="text-sm text-gray-500">Total Products</p>
-            <h3 className="text-2xl font-semibold text-gray-800 mt-1">120</h3>
+            <h3 className="text-2xl font-semibold text-gray-800 mt-1">{totalProducts}</h3>
           </div>
           <div className="bg-indigo-100 p-3 rounded-full">
             <Package className="text-indigo-600" size={24} />
@@ -23,7 +79,7 @@ const DashboardPage = () => {
         <div className="bg-white shadow-md rounded-2xl p-5 flex items-center justify-between">
           <div>
             <p className="text-sm text-gray-500">Categories</p>
-            <h3 className="text-2xl font-semibold text-gray-800 mt-1">8</h3>
+            <h3 className="text-2xl font-semibold text-gray-800 mt-1">{totalCategories}</h3>
           </div>
           <div className="bg-green-100 p-3 rounded-full">
             <Layers className="text-green-600" size={24} />
@@ -31,13 +87,20 @@ const DashboardPage = () => {
         </div>
 
         {/* Sales */}
-        <div className="bg-white shadow-md rounded-2xl p-5 flex items-center justify-between">
-          <div>
+        <div className="bg-white shadow-md rounded-2xl p-5 flex items-center justify-between gap-4">
+          <div className="flex-1 min-w-0">
             <p className="text-sm text-gray-500">Total Sales</p>
-            <h3 className="text-2xl font-semibold text-gray-800 mt-1">$4,320</h3>
+            <h3 className="text-2xl font-semibold text-gray-800 mt-1 truncate">
+              {totalSales?.toLocaleString("en-PH", {
+                style: "currency",
+                currency: "PHP",
+              })}
+            </h3>
           </div>
-          <div className="bg-yellow-100 p-3 rounded-full">
-            <DollarSign className="text-yellow-600" size={24} />
+
+          {/* Peso Icon (circle will always stay perfect) */}
+          <div className="bg-yellow-100 w-12 h-12 rounded-full flex items-center justify-center shrink-0">
+            <span className="text-yellow-600 text-2xl leading-none">₱</span>
           </div>
         </div>
 
@@ -45,7 +108,7 @@ const DashboardPage = () => {
         <div className="bg-white shadow-md rounded-2xl p-5 flex items-center justify-between">
           <div>
             <p className="text-sm text-gray-500">Low Stock Items</p>
-            <h3 className="text-2xl font-semibold text-gray-800 mt-1">5</h3>
+            <h3 className="text-2xl font-semibold text-gray-800 mt-1">{lowStockProducts.length}</h3>
           </div>
           <div className="bg-red-100 p-3 rounded-full">
             <AlertTriangle className="text-red-600" size={24} />
@@ -67,15 +130,12 @@ const DashboardPage = () => {
               </tr>
             </thead>
             <tbody>
-              {[
-                { date: "Nov 13, 2025", product: "Laptop", amount: "$1,200" },
-                { date: "Nov 12, 2025", product: "Wireless Mouse", amount: "$50" },
-                { date: "Nov 10, 2025", product: "Keyboard", amount: "$90" },
-              ].map((sale, idx) => (
+              {latestSales.map((sale, idx) => (
                 <tr key={idx} className="border-b last:border-0">
-                  <td className="py-2">{sale.date}</td>
-                  <td>{sale.product}</td>
-                  <td className="font-medium text-gray-700">{sale.amount}</td>
+                  <td className="py-2">{formatDate(sale.createdAt)}</td>
+                  {/* Show all product names separated by comma */}
+                  <td>{sale.items.map(i => i.productName).join(", ")}</td>
+                  <td className="font-medium text-gray-700">{sale.totalAmount.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' })}</td>
                 </tr>
               ))}
             </tbody>
@@ -86,12 +146,7 @@ const DashboardPage = () => {
         <div className="bg-white rounded-2xl shadow-md p-6">
           <h2 className="text-lg font-semibold mb-4 text-gray-700">Top Selling Products</h2>
           <ul className="divide-y">
-            {[
-              { name: "Laptop", sold: 34 },
-              { name: "Mouse", sold: 27 },
-              { name: "Keyboard", sold: 18 },
-              { name: "Headset", sold: 15 },
-            ].map((item, idx) => (
+            {topSellingProducts.map((item, idx) => (
               <li key={idx} className="flex justify-between py-2">
                 <span>{item.name}</span>
                 <span className="text-gray-700 font-medium">{item.sold} sold</span>

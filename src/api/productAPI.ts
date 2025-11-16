@@ -39,3 +39,15 @@ export async function updateProduct(id: number, product: Product): Promise<void>
 export async function deleteProduct(id: number): Promise<void> {
   await axios.delete(`${API_URL}${API_ROUTES.DELETE_PRODUCT(id)}`);
 }
+
+// ✅ GET Total Products
+export async function getTotalProducts(): Promise<number> {
+  const res = await axios.get<number>(`${API_URL}${API_ROUTES.GET_TOTAL_PRODUCT}`);
+  return res.data;
+}
+
+// ✅ GET Low Stock Products
+export async function getLowStockProducts(): Promise<Product[]> {
+  const res = await axios.get<Product[]>(`${API_URL}${API_ROUTES.GET_LOWSTOCK_PRODUCT}`);
+  return res.data;
+}

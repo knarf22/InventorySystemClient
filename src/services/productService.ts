@@ -3,6 +3,8 @@ import {
   createProduct as create,
   updateProduct as update,
   deleteProduct as remove,
+  getTotalProducts,
+  getLowStockProducts,
 } from "../api/productAPI";
 
 import type { Product } from "../api/productAPI";
@@ -25,4 +27,14 @@ export async function updateProduct(id: number, product: Product): Promise<void>
 // 🧩 Delete
 export async function deleteProduct(id: number): Promise<void> {
   return await remove(id);
+}
+
+// 🧩 Get total products
+export async function getTotalProductsService(): Promise<number> {
+  return await getTotalProducts();
+}
+
+// 🧩 Get low stock products
+export async function getLowStockProductsService(): Promise<Product[]> {
+  return await getLowStockProducts();
 }

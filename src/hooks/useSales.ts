@@ -1,10 +1,11 @@
 // src/hooks/useSales.ts
 import { useEffect, useState } from "react";
-import { createSale, getSales } from "../services/saleService";
+import { createSale, getSales, getTotalSalesService } from "../services/saleService";
 import type { CreateSaleDto, Sale } from "../api/saleAPI";
 
 export function useSales() {
   const [sales, setSales] = useState<Sale[]>([]);
+  const [totalSales, setTotalSales] = useState<number>();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -23,8 +24,6 @@ export function useSales() {
   };
 
   const addSale = async (newSale: CreateSaleDto) => {
-    // const sale = await createSale(newSale);
-    // setSales((prev) => [...prev, sale]);
     try {
       // 1. Send the creation request
       await createSale(newSale);
@@ -37,9 +36,21 @@ export function useSales() {
     }
   };
 
+  const fetchTotalSales = async () => {
+    try {
+      const total = await getTotalSalesService();
+      setTotalSales(total);
+    } catch (error) {
+      console.error("Error fetching total sales:", error);
+    }
+  };
+
   return {
     sales,
     loading,
+    totalSales,
+    fetchSales,
     addSale,
+    fetchTotalSales
   };
 }

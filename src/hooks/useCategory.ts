@@ -5,10 +5,12 @@ import {
   createCategory,
   updateCategory,
   deleteCategory,
+  getTotalCategoriesService,
 } from "../services/categoryService";
 
 export function useCategory() {
   const [categories, setCategories] = useState<Category[]>([]);
+  const [totalCategories, setTotalCategories] = useState<number>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -67,16 +69,27 @@ export function useCategory() {
     }
   };
 
+  const fetchTotalCategories = async () => {
+    try {
+      const total = await getTotalCategoriesService();
+      setTotalCategories(total);
+    } catch (error) {
+      console.error("Error fetching total categories:", error);
+    }
+  };
+
   useEffect(() => {
     fetchCategories();
   }, []);
 
   return {
     categories,
+    totalCategories,
     loading,
     error,
     fetchCategories,
     saveCategory,
     removeCategory,
+    fetchTotalCategories,
   };
 }

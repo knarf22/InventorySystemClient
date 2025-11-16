@@ -48,3 +48,8 @@ export async function createSale(sale: CreateSaleDto): Promise<CreateSaleRespons
     const res = await axios.post<CreateSaleResponse>(`${API_URL}${API_ROUTES.CREATE_SALE}`, sale);
     return res.data;
 }
+// ✅ GET Total Sales
+export async function getTotalSales(): Promise<number> {
+    const res = await axios.get<number>(`${API_URL}${API_ROUTES.GET_TOTAL_SALES}`);
+    return res.data;
+}

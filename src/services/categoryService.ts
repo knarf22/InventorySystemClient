@@ -3,6 +3,7 @@ import {
   createCategory as create,
   updateCategory as update,
   deleteCategory as remove,
+  getTotalCategories,
 } from "../api/categoryAPI";
 
 import type { Category } from "../api/categoryAPI";
@@ -25,4 +26,9 @@ export async function updateCategory(id: number, category: Category): Promise<vo
 // 🧩 Delete category
 export async function deleteCategory(id: number): Promise<void> {
   return await remove(id);
+}
+
+// 🧩 Get total categories
+export async function getTotalCategoriesService(): Promise<number> {
+  return await getTotalCategories();
 }

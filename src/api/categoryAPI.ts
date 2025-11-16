@@ -28,3 +28,9 @@ export async function updateCategory(id: number, category: Category): Promise<vo
 export async function deleteCategory(id: number): Promise<void> {
   await axios.delete(`${API_URL}${API_ROUTES.DELETE_CATEGORY(id)}`);
 }
+
+// ✅ GET Total Categories
+export async function getTotalCategories(): Promise<number> {
+  const res = await axios.get<number>(`${API_URL}${API_ROUTES.GET_TOTAL_CATEGORY}`);
+  return res.data;
+}

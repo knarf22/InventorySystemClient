@@ -1,10 +1,12 @@
 // src/hooks/useProduct.ts
 import { useEffect, useState } from "react";
-import { getProducts, createProduct, updateProduct, deleteProduct } from "../services/productService";
+import { getProducts, createProduct, updateProduct, deleteProduct, getLowStockProductsService, getTotalProductsService } from "../services/productService";
 import type { Product } from "../api/productAPI";
 
 export const useProduct = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [lowStockProducts, setLowStockProducts] = useState<Product[]>([]);
+  const [totalProducts, setTotalProducts] = useState<number>();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -26,7 +28,7 @@ export const useProduct = () => {
     const newProduct = await createProduct(product);
     setProducts((prev) => [...prev, newProduct]);
   };
- 
+
   const editProduct = async (id: number, product: Product) => {
     await updateProduct(id, product);
     setProducts((prev) => prev.map((p) => (p.productID === id ? product : p)));
@@ -37,12 +39,34 @@ export const useProduct = () => {
     setProducts((prev) => prev.filter((p) => p.productID !== id));
   };
 
+  const fetchLowStockProducts = async () => {
+    try {
+      const data = await getLowStockProductsService();
+      setLowStockProducts(data);
+    } catch (error) {
+      console.error("Error fetching low stock products:", error);
+    }
+  };
+
+  const fetchTotalProducts = async () => {
+    try {
+      const total = await getTotalProductsService();
+      setTotalProducts(total);
+    } catch (error) {
+      console.error("Error fetching total products:", error);
+    }
+  };
+
   return {
     products,
     loading,
+    totalProducts,
+    lowStockProducts,
     addProduct,
     editProduct,
     removeProduct,
     fetchProducts,
+    fetchLowStockProducts,
+    fetchTotalProducts,
   };
 };
