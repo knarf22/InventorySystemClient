@@ -33,17 +33,19 @@ const SummaryCards = ({ totalProducts, totalCategories, totalSales, lowStockCoun
       </div>
 
       {/* Sales */}
-      <div className="bg-white shadow-md rounded-2xl p-5 flex items-center justify-between">
-        <div>
+      <div className="bg-white shadow-md rounded-2xl p-5 flex items-center justify-between gap-4">
+        <div className="flex-1 min-w-0">
           <p className="text-sm text-gray-500">Total Sales</p>
-          <h3 className="text-2xl font-semibold text-gray-800 mt-1">
+          <h3 className="text-2xl font-semibold text-gray-800 mt-1 truncate">
             {totalSales?.toLocaleString("en-PH", {
               style: "currency",
               currency: "PHP",
             })}
           </h3>
         </div>
-        <div className="bg-yellow-100 w-12 h-12 rounded-full flex items-center justify-center">
+
+        {/* Peso Icon (circle will always stay perfect) */}
+        <div className="bg-yellow-100 w-12 h-12 rounded-full flex items-center justify-center shrink-0">
           <span className="text-yellow-600 text-2xl leading-none">₱</span>
         </div>
       </div>
