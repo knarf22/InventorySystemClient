@@ -18,7 +18,7 @@ const SidebarItem = ({
         className={`flex items-center justify-between px-4 py-3 rounded-lg cursor-pointer transition-all duration-300
           ${
             active
-              ? "bg-gradient-to-r from-purple-700 to-purple-600 text-white shadow-md"
+              ? "bg-gradient-to-r from-purple-700 to-purple-600  shadow-md"
               : "text-muted hover:bg-gradient-to-r hover:from-sidebarHover hover:to-purple-800 hover:text-secondary"
           }`}
       >
