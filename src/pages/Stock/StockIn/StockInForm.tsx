@@ -1,59 +1,69 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import StockInFormUI from "./StockInFormUI";
 
-const dummyProducts = [
-  { productID: 1, productName: "Product A" },
-  { productID: 2, productName: "Product B" },
-  { productID: 3, productName: "Product C" },
-];
+export interface StockInItem {
+  productID: number | "";
+  productName: string;
+  quantity: number;
+}
 
-type Props = {
-  onClose: () => void;
-  onSubmit: (data: any) => void;
-};
+export interface StockInFormProps {
+  onSubmit: (data: { createdBy: string; remarks: string; items: StockInItem[] }) => void;
+  onCancel: () => void;
+}
 
-const StockInForm = ({ onClose, onSubmit }: Props) => {
-  const [createdBy, setCreatedBy] = useState("Admin");
-  const [remarks, setRemarks] = useState("");
-  const [items, setItems] = useState<
-    { productID: number; productName: string; quantity: number }[]
-  >([]);
+const StockInForm = ({ onSubmit, onCancel }: StockInFormProps) => {
+  const [form, setForm] = useState({
+    createdBy: "",
+    remarks: "",
+  });
 
-  const addItem = () => {
-    setItems([
-      ...items,
-      {
-        productID: dummyProducts[0].productID,
-        productName: dummyProducts[0].productName,
-        quantity: 1,
-      },
-    ]);
+  const [items, setItems] = useState<StockInItem[]>([
+    { productID: "", productName: "", quantity: 1 },
+  ]);
+
+  const addItem = () =>
+    setItems((prev) => [...prev, { productID: "", productName: "", quantity: 1 }]);
+
+  const removeItem = (index: number) =>
+    setItems((prev) => prev.filter((_, i) => i !== index));
+
+  const handleItemChange = <
+    K extends keyof StockInItem
+  >(
+    index: number,
+    field: K,
+    value: StockInItem[K]
+  ) => {
+    setItems((prev) => {
+      const updated = [...prev];
+      updated[index] = { ...updated[index], [field]: value };
+      return updated;
+    });
   };
 
-  const updateItem = (index: number, key: string, value: any) => {
-    const updated = [...items];
-    // @ts-ignore
-    updated[index][key] = value;
-    setItems(updated);
-  };
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const validItems = items.filter((i) => i.productName.trim() !== "");
 
-  const submit = () => {
-    onSubmit({ createdBy, remarks, items });
-    onClose();
+    if (validItems.length === 0) {
+      alert("Please add at least one item.");
+      return;
+    }
+
+    onSubmit({ ...form, items: validItems });
   };
 
   return (
     <StockInFormUI
-      onClose={onClose}
-      onSubmit={submit}
-      createdBy={createdBy}
-      setCreatedBy={setCreatedBy}
-      remarks={remarks}
-      setRemarks={setRemarks}
+      form={form}
       items={items}
-      addItem={addItem}
-      updateItem={updateItem}
-      products={dummyProducts}
+      onFormChange={setForm}
+      onAddItem={addItem}
+      onRemoveItem={removeItem}
+      onItemChange={handleItemChange}
+      onCancel={onCancel}
+      onSubmit={handleSubmit}
     />
   );
 };

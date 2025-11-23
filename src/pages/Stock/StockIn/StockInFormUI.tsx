@@ -1,76 +1,127 @@
-import React from "react";
+import { PlusCircle, Trash2 } from "lucide-react";
+import type { StockInItem } from "./StockInForm";
 
-type Props = {
-  onClose: () => void;
-  onSubmit: () => void;
-  createdBy: string;
-  setCreatedBy: (v: string) => void;
-  remarks: string;
-  setRemarks: (v: string) => void;
-  items: any[];
-  addItem: () => void;
-  updateItem: (index: number, key: string, value: any) => void;
-  products: any[];
-};
+interface StockInFormUIProps {
+  form: { createdBy: string; remarks: string };
+  items: StockInItem[];
+
+  onFormChange: (v: { createdBy: string; remarks: string }) => void;
+  onAddItem: () => void;
+  onRemoveItem: (index: number) => void;
+  onItemChange: <K extends keyof StockInItem>(
+    index: number,
+    field: K,
+    value: StockInItem[K]
+  ) => void;
+
+  onCancel: () => void;
+  onSubmit: (e: React.FormEvent) => void;
+}
 
 const StockInFormUI = ({
-  onClose,
-  onSubmit,
-  createdBy,
-  setCreatedBy,
-  remarks,
-  setRemarks,
+  form,
   items,
-  addItem,
-  updateItem,
-  products,
-}: Props) => {
+  onFormChange,
+  onAddItem,
+  onRemoveItem,
+  onItemChange,
+  onCancel,
+  onSubmit,
+}: StockInFormUIProps) => {
   return (
-    <div>
-      <h2>Stock In Form</h2>
-
-      <label>Created By</label>
+    <form onSubmit={onSubmit} className="space-y-4">
       <input
-        value={createdBy}
-        onChange={(e) => setCreatedBy(e.target.value)}
+        type="text"
+        placeholder="Created By"
+        className="w-full border rounded-lg px-3 py-2"
+        value={form.createdBy}
+        onChange={(e) => onFormChange({ ...form, createdBy: e.target.value })}
       />
 
-      <label>Remarks</label>
       <textarea
-        value={remarks}
-        onChange={(e) => setRemarks(e.target.value)}
+        placeholder="Remarks"
+        className="w-full border rounded-lg px-3 py-2"
+        value={form.remarks}
+        onChange={(e) => onFormChange({ ...form, remarks: e.target.value })}
       />
 
-      <button onClick={addItem}>Add Item</button>
+      <h4 className="font-medium text-gray-700">Items</h4>
 
-      {items.map((item, index) => (
-        <div key={index}>
-          <select
-            value={item.productID}
-            onChange={(e) =>
-              updateItem(index, "productID", parseInt(e.target.value))
-            }
-          >
-            {products.map((p) => (
-              <option key={p.productID} value={p.productID}>
-                {p.productName}
-              </option>
-            ))}
-          </select>
+      <table className="w-full text-sm border">
+        <thead className="bg-gray-100">
+          <tr>
+            <th className="p-2 text-left">Product Name</th>
+            <th className="p-2 text-right">Qty</th>
+            <th className="p-2 text-center">Actions</th>
+          </tr>
+        </thead>
 
-          <input
-            type="number"
-            value={item.quantity}
-            onChange={(e) =>
-              updateItem(index, "quantity", parseInt(e.target.value))
-            }
-          />
-        </div>
-      ))}
+        <tbody>
+          {items.map((item, index) => (
+            <tr key={index} className="border-t">
+              <td className="p-2">
+                <input
+                  type="text"
+                  placeholder="Product Name"
+                  className="w-full border rounded px-2 py-1"
+                  value={item.productName}
+                  onChange={(e) =>
+                    onItemChange(index, "productName", e.target.value)
+                  }
+                />
+              </td>
 
-      <button onClick={onSubmit}>Submit</button>
-      <button onClick={onClose}>Close</button>
-    </div>
+              <td className="p-2 text-right">
+                <input
+                  type="number"
+                  min={1}
+                  className="w-20 border rounded px-2 py-1 text-right"
+                  value={item.quantity}
+                  onChange={(e) =>
+                    onItemChange(index, "quantity", Number(e.target.value))
+                  }
+                />
+              </td>
+
+              <td className="p-2 text-center">
+                <button
+                  type="button"
+                  onClick={() => onRemoveItem(index)}
+                  className="text-red-500 hover:text-red-700"
+                >
+                  <Trash2 size={16} />
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <button
+        type="button"
+        onClick={onAddItem}
+        className="flex items-center text-primary gap-2 mt-2"
+      >
+        <PlusCircle size={16} /> Add Item
+      </button>
+
+      <div className="flex justify-end gap-2 pt-3">
+        <button
+          type="button"
+          onClick={onCancel}
+          className="px-4 py-2 border rounded-lg text-gray-600 hover:bg-gray-100"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          className="px-4 py-2 bg-primary text-white rounded-lg hover:opacity-80"
+        >
+          Save Stock-In
+        </button>
+      </div>
+    </form>
   );
 };
 
