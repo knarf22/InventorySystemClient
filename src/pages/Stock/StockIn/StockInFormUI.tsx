@@ -1,9 +1,14 @@
 import { PlusCircle, Trash2 } from "lucide-react";
 import type { StockInItem } from "./StockInForm";
+import type { Product } from "../../../api/productAPI";
+
+
 
 interface StockInFormUIProps {
   form: { createdBy: string; remarks: string };
   items: StockInItem[];
+  products: Product[];
+
 
   onFormChange: (v: { createdBy: string; remarks: string }) => void;
   onAddItem: () => void;
@@ -21,6 +26,7 @@ interface StockInFormUIProps {
 const StockInFormUI = ({
   form,
   items,
+  products,
   onFormChange,
   onAddItem,
   onRemoveItem,
@@ -59,17 +65,24 @@ const StockInFormUI = ({
         <tbody>
           {items.map((item, index) => (
             <tr key={index} className="border-t">
-              <td className="p-2">
-                <input
-                  type="text"
-                  placeholder="Product Name"
-                  className="w-full border rounded px-2 py-1"
-                  value={item.productName}
-                  onChange={(e) =>
-                    onItemChange(index, "productName", e.target.value)
-                  }
-                />
-              </td>
+                <td className="py-2 px-3">
+                  <select
+                    value={item.productID || ""}
+                    onChange={(e) =>
+                      onItemChange(index, "productID", Number(e.target.value))
+                    }
+                    className="w-full border rounded px-2 py-1 cursor-pointer"
+                  >
+                    <option value="" disabled>
+                      Select Product
+                    </option>
+                    {products.map((product) => (
+                      <option key={product.productID} value={product.productID}>
+                        {product.productName}
+                      </option>
+                    ))}
+                  </select>
+                </td>
 
               <td className="p-2 text-right">
                 <input

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import StockInFormUI from "./StockInFormUI";
+import { useProduct } from "../../../hooks/useProduct";
 
 export interface StockInItem {
   productID: number | "";
@@ -13,6 +14,7 @@ export interface StockInFormProps {
 }
 
 const StockInForm = ({ onSubmit, onCancel }: StockInFormProps) => {
+  const { products } = useProduct();
   const [form, setForm] = useState({
     createdBy: "",
     remarks: "",
@@ -58,6 +60,7 @@ const StockInForm = ({ onSubmit, onCancel }: StockInFormProps) => {
     <StockInFormUI
       form={form}
       items={items}
+      products={products}
       onFormChange={setForm}
       onAddItem={addItem}
       onRemoveItem={removeItem}
