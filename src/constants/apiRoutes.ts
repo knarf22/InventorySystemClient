@@ -19,6 +19,10 @@ export const API_ROUTES = {
   GET_SALES: "/api/Sales",
   CREATE_SALE: "/api/Sales/create",
   GET_TOTAL_SALES: "/api/Sales/total-sales",
+
+  // ✅ Stocks routes
+  GET_STOCKS: "/api/Stocks",
+  UPDATE_STOCK: `/api/Stocks/update-stock`,
 };
 
 export const API_URL = import.meta.env.VITE_API_URL ?? "https://localhost:7270";
