@@ -22,7 +22,7 @@ export interface StockUpdateResponse {
 }
 
 // ✅ GET Stocks
-export async function getStocks(): Promise<ActionStocks[]> {
+export async function getStockActions(): Promise<ActionStocks[]> {
     const res = await axios.get<ActionStocks[]>(`${API_URL}${API_ROUTES.GET_STOCKS}`);
     return res.data;
 }
