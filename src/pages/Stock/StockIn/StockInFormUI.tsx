@@ -1,6 +1,7 @@
 import { PlusCircle, Trash2 } from "lucide-react";
 import type { StockInItem } from "./StockInForm";
 import type { Product } from "../../../api/productAPI";
+import type { ActionStocks } from "../../../api/stocksAPI";
 
 
 
@@ -8,6 +9,7 @@ interface StockInFormUIProps {
   form: { createdBy: string; remarks: string };
   items: StockInItem[];
   products: Product[];
+  reason: ActionStocks[];
 
 
   onFormChange: (v: { createdBy: string; remarks: string }) => void;
@@ -27,6 +29,7 @@ const StockInFormUI = ({
   form,
   items,
   products,
+  reason,
   onFormChange,
   onAddItem,
   onRemoveItem,
@@ -57,6 +60,7 @@ const StockInFormUI = ({
         <thead className="bg-gray-100">
           <tr>
             <th className="p-2 text-left">Product Name</th>
+            <th className="p-2 text-left">Reason</th>
             <th className="p-2 text-right">Qty</th>
             <th className="p-2 text-center">Actions</th>
           </tr>
@@ -65,24 +69,42 @@ const StockInFormUI = ({
         <tbody>
           {items.map((item, index) => (
             <tr key={index} className="border-t">
-                <td className="py-2 px-3">
-                  <select
-                    value={item.productID || ""}
-                    onChange={(e) =>
-                      onItemChange(index, "productID", Number(e.target.value))
-                    }
-                    className="w-full border rounded px-2 py-1 cursor-pointer"
-                  >
-                    <option value="" disabled>
-                      Select Product
+              <td className="py-2 px-3">
+                <select
+                  value={item.productID || ""}
+                  onChange={(e) =>
+                    onItemChange(index, "productID", Number(e.target.value))
+                  }
+                  className="w-full border rounded px-2 py-1 cursor-pointer"
+                >
+                  <option value="" disabled>
+                    Select Product
+                  </option>
+                  {products.map((product) => (
+                    <option key={product.productID} value={product.productID}>
+                      {product.productName}
                     </option>
-                    {products.map((product) => (
-                      <option key={product.productID} value={product.productID}>
-                        {product.productName}
-                      </option>
-                    ))}
-                  </select>
-                </td>
+                  ))}
+                </select>
+              </td>
+              <td className="py-2 px-3">
+                <select
+                  value={item.actionID || ""}
+                  onChange={(e) =>
+                    onItemChange(index, "actionID", Number(e.target.value))
+                  }
+                  className="w-full border rounded px-2 py-1 cursor-pointer"
+                >
+                  <option value="" disabled>
+                    Select Reason
+                  </option>
+                  {reason.map((reason) => (
+                    <option key={reason.actionID} value={reason.actionID}>
+                      {reason.actionName}
+                    </option>
+                  ))}
+                </select>
+              </td>
 
               <td className="p-2 text-right">
                 <input

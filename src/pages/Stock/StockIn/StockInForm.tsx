@@ -1,9 +1,11 @@
 import { useState } from "react";
 import StockInFormUI from "./StockInFormUI";
 import { useProduct } from "../../../hooks/useProduct";
+import { useStockActions } from "../../../hooks/useStockActions";
 
 export interface StockInItem {
   productID: number | "";
+  actionID: number | "";
   productName: string;
   quantity: number;
 }
@@ -15,18 +17,18 @@ export interface StockInFormProps {
 
 const StockInForm = ({ onSubmit, onCancel }: StockInFormProps) => {
   const { products } = useProduct();
+  const { stockInActions } = useStockActions();
   const [form, setForm] = useState({
     createdBy: "",
     remarks: "",
   });
 
   const [items, setItems] = useState<StockInItem[]>([
-    { productID: "", productName: "", quantity: 1 },
+    { productID: "", productName: "", quantity: 1, actionID: "" },
   ]);
 
   const addItem = () =>
-    setItems((prev) => [...prev, { productID: "", productName: "", quantity: 1 }]);
-
+    setItems((prev) => [...prev, { productID: "", productName: "", quantity: 1, actionID: "" }]);
   const removeItem = (index: number) =>
     setItems((prev) => prev.filter((_, i) => i !== index));
 
@@ -56,11 +58,13 @@ const StockInForm = ({ onSubmit, onCancel }: StockInFormProps) => {
     onSubmit({ ...form, items: validItems });
   };
 
+  console.log("stockin",stockInActions)
   return (
     <StockInFormUI
       form={form}
       items={items}
       products={products}
+      reason={stockInActions}
       onFormChange={setForm}
       onAddItem={addItem}
       onRemoveItem={removeItem}

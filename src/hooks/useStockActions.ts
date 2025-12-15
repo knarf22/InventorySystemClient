@@ -1,4 +1,4 @@
-import { useMemo, useCallback, useState } from "react";
+import { useMemo, useCallback, useState, useEffect } from "react";
 import { getStockActionsService } from "../services/stocksService";
 import type { ActionStocks } from "../api/stocksAPI";
 
@@ -18,13 +18,26 @@ export function useStockActions() {
     }
   }, []);
 
-  // Example: Memoized computed values (optional)
-  const totalStocks = useMemo(() => actionStocks.length, [actionStocks]);
+  useEffect(() => {
+    fetchStocks();
+  }, [fetchStocks]);
+
+  // 🔹 derived data (single source of truth)
+  const stockInActions = useMemo(
+    () => actionStocks.filter(a => a.actionType === "StockIn"),
+    [actionStocks]
+  );
+
+  const stockOutActions = useMemo(
+    () => actionStocks.filter(a => a.actionType === "StockOut"),
+    [actionStocks]
+  );
 
   return {
     actionStocks,
+    stockInActions,
+    stockOutActions,
     loading,
-    fetchStocks,
-    totalStocks,
+    refetch: fetchStocks,
   };
 }
