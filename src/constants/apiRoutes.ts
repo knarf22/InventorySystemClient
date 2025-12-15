@@ -21,7 +21,7 @@ export const API_ROUTES = {
   GET_TOTAL_SALES: "/api/Sales/total-sales",
 
   // ✅ Stocks routes
-  GET_STOCKS: "/api/Stocks",
+  GET_STOCKS: "/api/Stocks/get-stock-actions",
   UPDATE_STOCK: `/api/Stocks/update-stock`,
 };
 
