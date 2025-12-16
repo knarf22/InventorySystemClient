@@ -13,7 +13,8 @@ const StockInPage = () => {
     // await createStockInService(data);
 
     // After saving → refetch list
-    refetch();
+    // refetch();
+    console.log("yagbols")
     setIsModalOpen(false);
   };
 
