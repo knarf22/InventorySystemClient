@@ -1,6 +1,7 @@
 import axios from "axios";
 import { API_ROUTES, API_URL } from "../constants/apiRoutes";
 import type { CreateSaleItemDto } from "./saleAPI";
+import type { Product } from "./productAPI";
 
 export interface ActionStocks {
     actionID: number;
@@ -28,6 +29,9 @@ export interface StockMovements {
     quantityChange : number;
     movementDate : Date;
     referenceNo : string;
+    performedBy : string;
+    remarks : string;
+    product : Product;
 }
 
 
