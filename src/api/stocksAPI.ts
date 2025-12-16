@@ -6,7 +6,7 @@ export interface ActionStocks {
     actionID: number;
     actionName: string;
     actionType: string;
-} 
+}
 
 export interface UpdateStockDto {
     actionID: number;
@@ -21,6 +21,16 @@ export interface StockUpdateResponse {
     actionType: string;
 }
 
+export interface StockMovements {
+    movementID : number;
+    productID : number;
+    changeType : string;
+    quantityChange : number;
+    movementDate : Date;
+    referenceNo : string;
+}
+
+
 // ✅ GET Stocks
 export async function getStockActions(): Promise<ActionStocks[]> {
     const res = await axios.get<ActionStocks[]>(`${API_URL}${API_ROUTES.GET_STOCKS}`);
@@ -32,3 +42,17 @@ export async function updateStock(stockUpdate: UpdateStockDto): Promise<StockUpd
     const res = await axios.put<StockUpdateResponse>(`${API_URL}${API_ROUTES.UPDATE_STOCK}`, stockUpdate);
     return res.data;
 }
+
+// ✅ GET Stock In
+export async function getStockIn(): Promise<StockMovements[]> {
+    const res = await axios.get<StockMovements[]>(`${API_URL}${API_ROUTES.GET_STOCK_IN}`);
+    return res.data;
+}
+
+
+// ✅ GET Stock Out
+export async function getStockOut(): Promise<StockMovements[]> {
+    const res = await axios.get<StockMovements[]>(`${API_URL}${API_ROUTES.GET_STOCK_OUT}`);
+    return res.data;
+}
+
