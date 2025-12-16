@@ -23,6 +23,8 @@ export const API_ROUTES = {
   // ✅ Stocks routes
   GET_STOCKS: "/api/Stocks/get-stock-actions",
   UPDATE_STOCK: `/api/Stocks/update-stock`,
+  GET_STOCK_IN: `/api/Stocks/stock-in`,
+  GET_STOCK_OUT: `/api/Stocks/stock-out`,
 };
 
 export const API_URL = import.meta.env.VITE_API_URL ?? "https://localhost:7270";
