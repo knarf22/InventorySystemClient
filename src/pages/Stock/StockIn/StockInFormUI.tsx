@@ -1,30 +1,40 @@
 import { PlusCircle, Trash2 } from "lucide-react";
-import type { StockInItem } from "./StockInForm";
 import type { Product } from "../../../api/productAPI";
 import type { ActionStocks } from "../../../api/stocksAPI";
 
 
 
 interface StockInFormUIProps {
-  form: { createdBy: string; remarks: string };
-  items: StockInItem[];
+  form: {
+    performedBy: string;
+    remarks: string;
+    actionID: number;
+  };
+  items: {
+    productID: number | "";
+    quantity: number;
+  }[];
   products: Product[];
   reason: ActionStocks[];
 
+  onFormChange: (v: {
+    performedBy: string;
+    remarks: string;
+    actionID: number;
+  }) => void;
 
-  onFormChange: (v: { createdBy: string; remarks: string }) => void;
   onAddItem: () => void;
   onRemoveItem: (index: number) => void;
-  onItemChange: <K extends keyof StockInItem>(
+  onItemChange: (
     index: number,
-    field: K,
-    value: StockInItem[K]
+    field: "productID" | "quantity",
+    value: number | ""
   ) => void;
 
   onCancel: () => void;
   onSubmit: (e: React.FormEvent) => void;
+  saving: boolean;
 }
-
 const StockInFormUI = ({
   form,
   items,
@@ -36,31 +46,56 @@ const StockInFormUI = ({
   onItemChange,
   onCancel,
   onSubmit,
+  saving
 }: StockInFormUIProps) => {
   return (
     <form onSubmit={onSubmit} className="space-y-4">
+      {/* Created By */}
       <input
         type="text"
         placeholder="Created By"
         className="w-full border rounded-lg px-3 py-2"
-        value={form.createdBy}
-        onChange={(e) => onFormChange({ ...form, createdBy: e.target.value })}
+        value={form.performedBy}
+        onChange={(e) =>
+          onFormChange({ ...form, performedBy: e.target.value })
+        }
       />
 
+      {/* Remarks */}
       <textarea
         placeholder="Remarks"
         className="w-full border rounded-lg px-3 py-2"
         value={form.remarks}
-        onChange={(e) => onFormChange({ ...form, remarks: e.target.value })}
+        onChange={(e) =>
+          onFormChange({ ...form, remarks: e.target.value })
+        }
       />
 
+      {/* ✅ Reason (GLOBAL) */}
+      <select
+        value={form.actionID || ""}
+        onChange={(e) =>
+          onFormChange({ ...form, actionID: Number(e.target.value) })
+        }
+        className="w-full border rounded px-3 py-2 cursor-pointer"
+      >
+        <option value="" disabled>
+          Select Reason
+        </option>
+        {reason.map((r) => (
+          <option key={r.actionID} value={r.actionID}>
+            {r.actionName}
+          </option>
+        ))}
+      </select>
+
+      {/* Items */}
       <h4 className="font-medium text-gray-700">Items</h4>
 
       <table className="w-full text-sm border">
         <thead className="bg-gray-100">
           <tr>
-            <th className="p-2 text-left">Product Name</th>
-            <th className="p-2 text-left">Reason</th>
+            <th className="p-2 text-left">Product</th>
             <th className="p-2 text-right">Qty</th>
             <th className="p-2 text-center">Actions</th>
           </tr>
@@ -81,26 +116,11 @@ const StockInFormUI = ({
                     Select Product
                   </option>
                   {products.map((product) => (
-                    <option key={product.productID} value={product.productID}>
+                    <option
+                      key={product.productID}
+                      value={product.productID}
+                    >
                       {product.productName}
-                    </option>
-                  ))}
-                </select>
-              </td>
-              <td className="py-2 px-3">
-                <select
-                  value={item.actionID || ""}
-                  onChange={(e) =>
-                    onItemChange(index, "actionID", Number(e.target.value))
-                  }
-                  className="w-full border rounded px-2 py-1 cursor-pointer"
-                >
-                  <option value="" disabled>
-                    Select Reason
-                  </option>
-                  {reason.map((reason) => (
-                    <option key={reason.actionID} value={reason.actionID}>
-                      {reason.actionName}
                     </option>
                   ))}
                 </select>
@@ -153,7 +173,7 @@ const StockInFormUI = ({
           type="submit"
           className="px-4 py-2 bg-primary text-white rounded-lg hover:opacity-80"
         >
-          Save Stock-In
+          {saving ? "Saving..." : "Save Stock-In"}
         </button>
       </div>
     </form>

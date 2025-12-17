@@ -1,24 +1,27 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import StockInTable from "./StockInTable";
 import StockInForm from "./StockInForm";
 import { Plus } from "lucide-react";
 import { useStockByType } from "../../../hooks/useStockByType";
+import { useStocks } from "../../../hooks/useStocks";
+import type { UpdateStockDto } from "../../../api/stocksAPI";
 
 const StockInPage = () => {
   const { stocks, loading, refetch } = useStockByType("StockIn");
+  const { updateStock, loading: saving } = useStocks();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleAddStockIn = async (data: any) => {
-    // Normally this should call an API
-    // await createStockInService(data);
-
-    // After saving → refetch list
-    // refetch();
-    console.log("yagbols")
-    setIsModalOpen(false);
+  const handleAddStockIn = async (data: UpdateStockDto) => {
+    try {
+      await updateStock(data);   // ✅ CALL API
+      setIsModalOpen(false);     // ✅ CLOSE MODAL
+      refetch();                 // ✅ REFRESH TABLE
+    } catch (err) {
+      console.error("Failed to create stock-in", err);
+      alert("Failed to save stock-in.");
+    }
   };
-
-  console.log("stocks",stocks)
 
   return (
     <div className="p-6 space-y-4">
@@ -52,6 +55,7 @@ const StockInPage = () => {
             <StockInForm
               onSubmit={handleAddStockIn}
               onCancel={() => setIsModalOpen(false)}
+              saving={saving}
             />
           </div>
         </div>

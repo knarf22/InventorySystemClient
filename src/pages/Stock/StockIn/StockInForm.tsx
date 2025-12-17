@@ -2,42 +2,45 @@ import { useState } from "react";
 import StockInFormUI from "./StockInFormUI";
 import { useProduct } from "../../../hooks/useProduct";
 import { useStockActions } from "../../../hooks/useStockActions";
+import type { UpdateStockDto } from "../../../api/stocksAPI";
+import type { CreateSaleItemDto } from "../../../api/saleAPI";
 
-export interface StockInItem {
-  productID: number | "";
-  actionID: number | "";
-  productName: string;
-  quantity: number;
-}
+
 
 export interface StockInFormProps {
-  onSubmit: (data: { createdBy: string; remarks: string; items: StockInItem[] }) => void;
+  onSubmit: (data: UpdateStockDto) => void;
   onCancel: () => void;
+  saving: boolean;
 }
 
-const StockInForm = ({ onSubmit, onCancel }: StockInFormProps) => {
+const StockInForm = ({ onSubmit, onCancel, saving }: StockInFormProps) => {
   const { products } = useProduct();
   const { stockInActions } = useStockActions();
-  const [form, setForm] = useState({
-    createdBy: "",
+
+  const [form, setForm] = useState<{
+    performedBy: string;
+    remarks: string;
+    actionID: number;
+  }>({
+    performedBy: "",
     remarks: "",
+    actionID: 0,
   });
 
-  const [items, setItems] = useState<StockInItem[]>([
-    { productID: "", productName: "", quantity: 1, actionID: "" },
+  const [items, setItems] = useState<CreateSaleItemDto[]>([
+    { productID: 1, quantity: 1 },
   ]);
 
   const addItem = () =>
-    setItems((prev) => [...prev, { productID: "", productName: "", quantity: 1, actionID: "" }]);
+    setItems((prev) => [...prev, { productID: 1, quantity: 1 }]);
+
   const removeItem = (index: number) =>
     setItems((prev) => prev.filter((_, i) => i !== index));
 
-  const handleItemChange = <
-    K extends keyof StockInItem
-  >(
+  const handleItemChange = (
     index: number,
-    field: K,
-    value: StockInItem[K]
+    field: keyof CreateSaleItemDto,
+    value: number | ""
   ) => {
     setItems((prev) => {
       const updated = [...prev];
@@ -48,17 +51,27 @@ const StockInForm = ({ onSubmit, onCancel }: StockInFormProps) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const validItems = items.filter((i) => i.productName.trim() !== "");
+
+    if (!form.actionID) {
+      alert("Please select a reason.");
+      return;
+    }
+
+    const validItems = items.filter(
+      (i) => i.productID > 0 && i.quantity > 0
+    );
 
     if (validItems.length === 0) {
       alert("Please add at least one item.");
       return;
     }
 
-    onSubmit({ ...form, items: validItems });
+    onSubmit({
+      ...form,
+      items: validItems,
+    });
   };
 
-  console.log("stockin",stockInActions)
   return (
     <StockInFormUI
       form={form}
@@ -71,6 +84,7 @@ const StockInForm = ({ onSubmit, onCancel }: StockInFormProps) => {
       onItemChange={handleItemChange}
       onCancel={onCancel}
       onSubmit={handleSubmit}
+      saving={saving}
     />
   );
 };
