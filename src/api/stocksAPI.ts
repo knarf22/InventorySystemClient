@@ -43,8 +43,8 @@ export async function getStockActions(): Promise<ActionStocks[]> {
 
 // ✅ UPDATE Stock
 export async function updateStock(stockUpdate: UpdateStockDto): Promise<StockUpdateResponse> {
-    const res = await axios.put<StockUpdateResponse>(`${API_URL}${API_ROUTES.UPDATE_STOCK}`, stockUpdate);
-    return res.data;
+  const res = await axios.post<StockUpdateResponse>(`${API_URL}${API_ROUTES.UPDATE_STOCK}`, stockUpdate);
+  return res.data;
 }
 
 // ✅ GET Stock In

@@ -5,7 +5,7 @@ import DashboardPage from "../pages/Dashboard/DashboardPage";
 import ProductsPage from "../pages/Products/ProductsPage";
 import SalesTransactionsPage from "../pages/SalesTransactions/SalesTransactionsPage";
 import StockInPage from "../pages/Stock/StockIn/StockInPage";
-import StockOut from "../pages/Stock/StockOut/StockOut";
+import StockOutPage from "../pages/Stock/StockOut/StockOutPage";
 
 export interface RouteType {
   path: string;
@@ -19,6 +19,6 @@ export const ROUTES: RouteType[] = [
   { path: "/sales", element: <SalesTransactionsPage /> },
   { path: "/sales-reports", element: <SalesTransactionsPage /> },
   { path: "/stock-in", element: <StockInPage /> },
-  { path: "/stock-out", element: <StockOut /> },
+  { path: "/stock-out", element: <StockOutPage /> },
 
 ];

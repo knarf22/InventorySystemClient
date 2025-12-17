@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import type { StockMovements } from "../../../api/stocksAPI";
-import type { Product } from "../../../api/productAPI";
+import type { StockMovements } from "../../api/stocksAPI";
+import type { Product } from "../../api/productAPI";
+
 
 /* =======================
    GROUPED VIEW MODEL
@@ -26,7 +27,7 @@ export interface StockTableProps {
   stock: StockMovements[];
 }
 
-const StockInTable = ({ stock }: StockTableProps) => {
+const StockTable = ({ stock }: StockTableProps) => {
   const [expanded, setExpanded] = useState<string | null>(null);
 
   /* =======================
@@ -164,4 +165,4 @@ const StockInTable = ({ stock }: StockTableProps) => {
   );
 };
 
-export default StockInTable;
+export default StockTable;
