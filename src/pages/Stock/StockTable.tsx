@@ -15,7 +15,7 @@ export interface GroupedStock {
   totalQuantity: number;
   items: {
     movementID: number;
-    product : Product;
+    product: Product;
     quantity: number;
   }[];
 }
@@ -29,7 +29,7 @@ export interface StockTableProps {
 
 const StockTable = ({ stock }: StockTableProps) => {
   const [expanded, setExpanded] = useState<string | null>(null);
-
+  console.log("stocks", stock)
   /* =======================
      GROUP BY REFERENCE NO
   ======================= */
@@ -39,8 +39,8 @@ const StockTable = ({ stock }: StockTableProps) => {
     stock.forEach((movement) => {
       if (!map.has(movement.referenceNo)) {
         map.set(movement.referenceNo, {
-          referenceNo: movement.referenceNo,
           performedBy: movement.performedBy,
+          referenceNo: movement.referenceNo,
           movementDate: movement.movementDate,
           remarks: movement.remarks,
           totalQuantity: 0,
@@ -67,17 +67,16 @@ const StockTable = ({ stock }: StockTableProps) => {
   ======================= */
   return (
     <table className="min-w-full text-sm text-gray-700">
-      <thead className="bg-gray-100 text-gray-600 uppercase text-xs">
+      <thead className="bg-gray-100 text-gray-600 uppercase text-md">
         <tr>
           <th className="py-3 px-4 text-left">Reference No</th>
-          <th className="py-3 px-4 text-left">Created By</th>
           <th className="py-3 px-4 text-left">Date</th>
           <th className="py-3 px-4 text-right">Total</th>
           <th className="py-3 px-4 text-center">Actions</th>
         </tr>
       </thead>
 
-      <tbody>
+      <tbody className="text-md">
         {groupedStockIns.length === 0 ? (
           <tr>
             <td colSpan={5} className="text-center py-6 text-gray-400 italic">
@@ -99,7 +98,6 @@ const StockTable = ({ stock }: StockTableProps) => {
                 }
               >
                 <td className="py-3 px-4">{stock.referenceNo}</td>
-                <td className="py-3 px-4">{stock.performedBy}</td>
                 <td className="py-3 px-4">
                   {new Date(stock.movementDate).toLocaleDateString()}
                 </td>
@@ -107,12 +105,14 @@ const StockTable = ({ stock }: StockTableProps) => {
                   {stock.totalQuantity > 0 ? "+" : ""}
                   {stock.totalQuantity}
                 </td>
-                <td className="py-3 px-4 text-center">
-                  {expanded === stock.referenceNo ? (
-                    <ChevronUp size={18} />
-                  ) : (
-                    <ChevronDown size={18} />
-                  )}
+                <td className="py-3 px-4">
+                  <div className="flex justify-center">
+                    {expanded === stock.referenceNo ? (
+                      <ChevronUp size={18} />
+                    ) : (
+                      <ChevronDown size={18} />
+                    )}
+                  </div>
                 </td>
               </tr>
 
