@@ -8,9 +8,10 @@ import SummaryCards from "./components/SummaryCards";
 import RecentSalesTable from "./components/RecentSalesTable";
 import TopSellingProductsList from "./components/TopSellingProductList";
 import SalesChart from "./components/SalesChart";
+import SummaryCardsSkeleton from "./components/SummaryCardsSkeleton";
 
 const DashboardPage = () => {
-  const { totalSales, sales, fetchTotalSales, fetchSales } = useSales();
+  const { totalSales, sales, fetchTotalSales, fetchSales, loading: loadingSales } = useSales();
   const { totalCategories, fetchTotalCategories } = useCategory();
   const { totalProducts, lowStockProducts, fetchTotalProducts, fetchLowStockProducts } = useProduct();
 
@@ -54,6 +55,9 @@ const DashboardPage = () => {
     setTopSellingProducts(getTopSellingProducts());
   }, [sales]);
 
+  if (loadingSales) {
+    return <SummaryCardsSkeleton />;
+  }
   return (
     <div className="p-6 space-y-6">
       <h1 className="text-2xl font-bold text-gray-800">Dashboard Overview</h1>

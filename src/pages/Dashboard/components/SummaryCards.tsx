@@ -1,4 +1,7 @@
 import { Package, Layers, AlertTriangle } from "lucide-react";
+import { motion } from "framer-motion";
+import { staggerContainer, fadeUpCard } from "../../../animation";
+import AnimatedNumber from "../../../components/ui/AnimatedNumber";
 
 interface Props {
   totalProducts: number;
@@ -7,60 +10,97 @@ interface Props {
   lowStockCount: number;
 }
 
-const SummaryCards = ({ totalProducts, totalCategories, totalSales, lowStockCount }: Props) => {
+const SummaryCards = ({
+  totalProducts,
+  totalCategories,
+  totalSales,
+  lowStockCount,
+}: Props) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <motion.div
+      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+      variants={staggerContainer}
+      initial="hidden"
+      animate="visible"
+    >
       {/* Products */}
-      <div className="bg-white shadow-md rounded-2xl p-5 flex items-center justify-between">
+      <motion.div
+        variants={fadeUpCard}
+        whileHover={{ y: -4 }}
+        className="bg-white shadow-md rounded-2xl p-5 flex items-center justify-between"
+      >
         <div>
           <p className="text-sm text-gray-500">Total Products</p>
-          <h3 className="text-2xl font-semibold text-gray-800 mt-1">{totalProducts}</h3>
+          <h3 className="text-2xl font-semibold text-gray-800 mt-1">
+            <AnimatedNumber value={totalProducts} />
+          </h3>
         </div>
         <div className="bg-indigo-100 p-3 rounded-full">
           <Package className="text-indigo-600" size={24} />
         </div>
-      </div>
+      </motion.div>
 
       {/* Categories */}
-      <div className="bg-white shadow-md rounded-2xl p-5 flex items-center justify-between">
+      <motion.div
+        variants={fadeUpCard}
+        whileHover={{ y: -4 }}
+        className="bg-white shadow-md rounded-2xl p-5 flex items-center justify-between"
+      >
         <div>
           <p className="text-sm text-gray-500">Categories</p>
-          <h3 className="text-2xl font-semibold text-gray-800 mt-1">{totalCategories}</h3>
+          <h3 className="text-2xl font-semibold text-gray-800 mt-1">
+            <AnimatedNumber value={totalCategories} />
+          </h3>
         </div>
         <div className="bg-green-100 p-3 rounded-full">
           <Layers className="text-green-600" size={24} />
         </div>
-      </div>
+      </motion.div>
 
       {/* Sales */}
-      <div className="bg-white shadow-md rounded-2xl p-5 flex items-center justify-between gap-4">
+      <motion.div
+        variants={fadeUpCard}
+        whileHover={{ y: -4 }}
+        className="bg-white shadow-md rounded-2xl p-5 flex items-center justify-between gap-4"
+      >
         <div className="flex-1 min-w-0">
           <p className="text-sm text-gray-500">Total Sales</p>
           <h3 className="text-2xl font-semibold text-gray-800 mt-1 truncate">
-            {totalSales?.toLocaleString("en-PH", {
-              style: "currency",
-              currency: "PHP",
-            })}
+            <AnimatedNumber
+              value={totalSales}
+              format={(v) =>
+                v.toLocaleString("en-PH", {
+                  style: "currency",
+                  currency: "PHP",
+                  maximumFractionDigits: 0,
+                })
+              }
+            />
           </h3>
         </div>
 
-        {/* Peso Icon (circle will always stay perfect) */}
         <div className="bg-yellow-100 w-12 h-12 rounded-full flex items-center justify-center shrink-0">
           <span className="text-yellow-600 text-2xl leading-none">₱</span>
         </div>
-      </div>
+      </motion.div>
 
       {/* Low Stock */}
-      <div className="bg-white shadow-md rounded-2xl p-5 flex items-center justify-between">
+      <motion.div
+        variants={fadeUpCard}
+        whileHover={{ y: -4 }}
+        className="bg-white shadow-md rounded-2xl p-5 flex items-center justify-between"
+      >
         <div>
           <p className="text-sm text-gray-500">Low Stock Items</p>
-          <h3 className="text-2xl font-semibold text-gray-800 mt-1">{lowStockCount}</h3>
+          <h3 className="text-2xl font-semibold text-gray-800 mt-1">
+            <AnimatedNumber value={lowStockCount} />
+          </h3>
         </div>
         <div className="bg-red-100 p-3 rounded-full">
           <AlertTriangle className="text-red-600" size={24} />
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 
