@@ -1,21 +1,21 @@
+// src/components/Stock/StockForm.tsx
 import { useState } from "react";
-import StockInFormUI from "./StockInFormUI";
-import { useProduct } from "../../../hooks/useProduct";
-import { useStockActions } from "../../../hooks/useStockActions";
-import type { UpdateStockDto } from "../../../api/stocksAPI";
-import type { CreateSaleItemDto } from "../../../api/saleAPI";
+import { useProduct } from "../../hooks/useProduct";
+import type { UpdateStockDto } from "../../api/stocksAPI";
+import type { CreateSaleItemDto } from "../../api/saleAPI";
+import type { ActionStocks } from "../../api/stocksAPI";
+import StockFormUI from "./StockFormUI";
 
-
-
-export interface StockInFormProps {
+export interface StockFormProps {
+  type: "in" | "out"; // determines Stock-In or Stock-Out
+  actions: ActionStocks[]; // pass corresponding actions
   onSubmit: (data: UpdateStockDto) => void;
   onCancel: () => void;
   saving: boolean;
 }
 
-const StockInForm = ({ onSubmit, onCancel, saving }: StockInFormProps) => {
+const StockForm = ({ type, actions, onSubmit, onCancel, saving }: StockFormProps) => {
   const { products } = useProduct();
-  const { stockInActions } = useStockActions();
 
   const [form, setForm] = useState<{
     performedBy: string;
@@ -28,11 +28,11 @@ const StockInForm = ({ onSubmit, onCancel, saving }: StockInFormProps) => {
   });
 
   const [items, setItems] = useState<CreateSaleItemDto[]>([
-    { productID: 1, quantity: 1 },
+    { productID: 0, quantity: 1 },
   ]);
 
   const addItem = () =>
-    setItems((prev) => [...prev, { productID: 1, quantity: 1 }]);
+    setItems((prev) => [...prev, { productID: 0, quantity: 1 }]);
 
   const removeItem = (index: number) =>
     setItems((prev) => prev.filter((_, i) => i !== index));
@@ -73,11 +73,12 @@ const StockInForm = ({ onSubmit, onCancel, saving }: StockInFormProps) => {
   };
 
   return (
-    <StockInFormUI
+    <StockFormUI
+      type={type}
       form={form}
       items={items}
       products={products}
-      reason={stockInActions}
+      reason={actions}
       onFormChange={setForm}
       onAddItem={addItem}
       onRemoveItem={removeItem}
@@ -89,4 +90,4 @@ const StockInForm = ({ onSubmit, onCancel, saving }: StockInFormProps) => {
   );
 };
 
-export default StockInForm;
+export default StockForm;

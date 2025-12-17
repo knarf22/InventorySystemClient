@@ -1,10 +1,9 @@
 import { PlusCircle, Trash2 } from "lucide-react";
-import type { Product } from "../../../api/productAPI";
-import type { ActionStocks } from "../../../api/stocksAPI";
+import type { Product } from "../../api/productAPI";
+import type { ActionStocks } from "../../api/stocksAPI";
 
-
-
-interface StockInFormUIProps {
+interface StockFormUIProps {
+  type: "in" | "out"; // NEW: stock type
   form: {
     performedBy: string;
     remarks: string;
@@ -35,7 +34,9 @@ interface StockInFormUIProps {
   onSubmit: (e: React.FormEvent) => void;
   saving: boolean;
 }
-const StockInFormUI = ({
+
+const StockFormUI = ({
+  type,
   form,
   items,
   products,
@@ -46,14 +47,16 @@ const StockInFormUI = ({
   onItemChange,
   onCancel,
   onSubmit,
-  saving
-}: StockInFormUIProps) => {
+  saving,
+}: StockFormUIProps) => {
+  const buttonLabel = type === "in" ? "Save Stock-In" : "Save Stock-Out";
+
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       {/* Created By */}
       <input
         type="text"
-        placeholder="Created By"
+        placeholder="Performed By"
         className="w-full border rounded-lg px-3 py-2"
         value={form.performedBy}
         onChange={(e) =>
@@ -66,12 +69,10 @@ const StockInFormUI = ({
         placeholder="Remarks"
         className="w-full border rounded-lg px-3 py-2"
         value={form.remarks}
-        onChange={(e) =>
-          onFormChange({ ...form, remarks: e.target.value })
-        }
+        onChange={(e) => onFormChange({ ...form, remarks: e.target.value })}
       />
 
-      {/* ✅ Reason (GLOBAL) */}
+      {/* Reason */}
       <select
         value={form.actionID || ""}
         onChange={(e) =>
@@ -116,10 +117,7 @@ const StockInFormUI = ({
                     Select Product
                   </option>
                   {products.map((product) => (
-                    <option
-                      key={product.productID}
-                      value={product.productID}
-                    >
+                    <option key={product.productID} value={product.productID}>
                       {product.productName}
                     </option>
                   ))}
@@ -173,11 +171,11 @@ const StockInFormUI = ({
           type="submit"
           className="px-4 py-2 bg-primary text-white rounded-lg hover:opacity-80"
         >
-          {saving ? "Saving..." : "Save Stock-In"}
+          {saving ? "Saving..." : buttonLabel}
         </button>
       </div>
     </form>
   );
 };
 
-export default StockInFormUI;
+export default StockFormUI;
