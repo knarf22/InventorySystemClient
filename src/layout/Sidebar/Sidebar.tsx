@@ -157,7 +157,7 @@ const Sidebar = () => {
               icon={<Users />}
               label="Users / Roles"
               active={isActive("/users")}
-              onClick={() => handleNavigation("/users")}
+              onClick={() => handleNavigation("/user-role")}
             />
 
             {/* Reports / History */}
