@@ -7,7 +7,6 @@ import {
   ArrowUpCircle,
   Boxes,
   Tags,
-  Truck,
   Users,
   BarChart3,
   Clock,
@@ -20,6 +19,7 @@ import {
 } from "lucide-react";
 import SidebarItem from "./SidebarItem";
 import SidebarSubItem from "./SidebarSubitem";
+import { logout } from "../../pages/Login/logout";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -91,7 +91,7 @@ const Sidebar = () => {
                 </div>
               )}
             </SidebarItem>
-            
+
             {/* Sales */}
             <SidebarItem
               icon={<ShoppingCart />}
@@ -215,7 +215,12 @@ const Sidebar = () => {
               <p className="text-xs text-secondary">Admin</p>
             </div>
           </div>
-          <LogOut className="w-5 h-5 text-secondary cursor-pointer hover:text-primary transition" />
+          <LogOut
+            onClick={async () => {
+              await logout();
+              navigate("/login");
+            }}
+            className="w-5 h-5 text-secondary cursor-pointer hover:text-primary transition" />
         </div>
       </div>
     </div>
