@@ -3,6 +3,7 @@ import SignUpFormUI from "./SignUpFormUI";
 
 const SignUpPage = () => {
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -16,6 +17,7 @@ const SignUpPage = () => {
 
     console.log({
       email,
+      username,
       password,
     });
   };
@@ -23,9 +25,11 @@ const SignUpPage = () => {
   return (
     <SignUpFormUI
       email={email}
+      username={username}
       password={password}
       confirmPassword={confirmPassword}
       onEmailChange={setEmail}
+      onUsernameChange={setUsername}
       onPasswordChange={setPassword}
       onConfirmPasswordChange={setConfirmPassword}
       onSubmit={handleSubmit}

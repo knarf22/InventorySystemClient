@@ -2,9 +2,11 @@ import { Link } from "react-router-dom";
 
 interface SignUpFormUIProps {
     email: string;
+    username: string;
     password: string;
     confirmPassword: string;
     onEmailChange: (value: string) => void;
+    onUsernameChange: (value: string) => void;
     onPasswordChange: (value: string) => void;
     onConfirmPasswordChange: (value: string) => void;
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -13,8 +15,10 @@ interface SignUpFormUIProps {
 const SignUpFormUI = ({
     email,
     password,
+    username,
     confirmPassword,
     onEmailChange,
+    onUsernameChange,
     onPasswordChange,
     onConfirmPasswordChange,
     onSubmit,
@@ -47,6 +51,23 @@ const SignUpFormUI = ({
                                 autoComplete="email"
                                 value={email}
                                 onChange={(e) => onEmailChange(e.target.value)}
+                                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600 sm:text-sm/6"
+                            />
+                        </div>
+                    </div>
+                    {/* Username */}
+                    <div>
+                        <label htmlFor="username" className="block text-sm/6 font-medium text-gray-900">
+                            Username
+                        </label>
+                        <div className="mt-2">
+                            <input
+                                id="username"
+                                type="text"
+                                required
+                                autoComplete="username"
+                                value={username}
+                                onChange={(e) => onUsernameChange(e.target.value)}
                                 className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600 sm:text-sm/6"
                             />
                         </div>
