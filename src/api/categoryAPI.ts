@@ -1,5 +1,5 @@
-import axios from "axios";
-import { API_ROUTES, API_URL } from "../constants/apiRoutes";
+import { API_ROUTES } from "../constants/apiRoutes";
+import api from "./axios";
 
 export interface Category {
   categoryID: number;
@@ -9,28 +9,28 @@ export interface Category {
 
 // ✅ GET
 export async function getCategories(): Promise<Category[]> {
-  const res = await axios.get<Category[]>(`${API_URL}${API_ROUTES.GET_CATEGORIES}`);
+  const res = await api.get<Category[]>(API_ROUTES.GET_CATEGORIES);
   return res.data;
 }
 
 // ✅ POST
 export async function createCategory(category: Omit<Category, "categoryID">): Promise<Category> {
-  const res = await axios.post<Category>(`${API_URL}${API_ROUTES.CREATE_CATEGORY}`, category);
+  const res = await api.post<Category>(API_ROUTES.CREATE_CATEGORY, category);
   return res.data;
 }
 
 // ✅ PUT
 export async function updateCategory(id: number, category: Category): Promise<void> {
-  await axios.put(`${API_URL}${API_ROUTES.UPDATE_CATEGORY(id)}`, category);
+  await api.put(API_ROUTES.UPDATE_CATEGORY(id), category);
 }
 
 // ✅ DELETE
 export async function deleteCategory(id: number): Promise<void> {
-  await axios.delete(`${API_URL}${API_ROUTES.DELETE_CATEGORY(id)}`);
+  await api.delete(API_ROUTES.DELETE_CATEGORY(id));
 }
 
 // ✅ GET Total Categories
 export async function getTotalCategories(): Promise<number> {
-  const res = await axios.get<number>(`${API_URL}${API_ROUTES.GET_TOTAL_CATEGORY}`);
+  const res = await api.get<number>(API_ROUTES.GET_TOTAL_CATEGORY);
   return res.data;
 }

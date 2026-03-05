@@ -1,6 +1,6 @@
 import { useState } from "react";
 import SignUpFormUI from "./SignUpFormUI";
-import api from "../Login/axios";
+import api from "../../api/axios";
 import { useNavigate } from "react-router-dom";
 
 const SignUpPage = () => {

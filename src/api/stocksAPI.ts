@@ -1,7 +1,7 @@
-import axios from "axios";
-import { API_ROUTES, API_URL } from "../constants/apiRoutes";
+import { API_ROUTES } from "../constants/apiRoutes";
 import type { CreateSaleItemDto } from "./saleAPI";
 import type { Product } from "./productAPI";
+import api from "./axios";
 
 export interface ActionStocks {
     actionID: number;
@@ -37,26 +37,26 @@ export interface StockMovements {
 
 // ✅ GET Stocks
 export async function getStockActions(): Promise<ActionStocks[]> {
-    const res = await axios.get<ActionStocks[]>(`${API_URL}${API_ROUTES.GET_STOCKS}`);
+    const res = await api.get<ActionStocks[]>(API_ROUTES.GET_STOCKS);
     return res.data;
 }
 
 // ✅ UPDATE Stock
 export async function updateStock(stockUpdate: UpdateStockDto): Promise<StockUpdateResponse> {
-  const res = await axios.post<StockUpdateResponse>(`${API_URL}${API_ROUTES.UPDATE_STOCK}`, stockUpdate);
+  const res = await api.post<StockUpdateResponse>(API_ROUTES.UPDATE_STOCK, stockUpdate);
   return res.data;
 }
 
 // ✅ GET Stock In
 export async function getStockIn(): Promise<StockMovements[]> {
-    const res = await axios.get<StockMovements[]>(`${API_URL}${API_ROUTES.GET_STOCK_IN}`);
+    const res = await api.get<StockMovements[]>(API_ROUTES.GET_STOCK_IN);
     return res.data;
 }
 
 
 // ✅ GET Stock Out
 export async function getStockOut(): Promise<StockMovements[]> {
-    const res = await axios.get<StockMovements[]>(`${API_URL}${API_ROUTES.GET_STOCK_OUT}`);
+    const res = await api.get<StockMovements[]>(API_ROUTES.GET_STOCK_OUT);
     return res.data;
 }
 

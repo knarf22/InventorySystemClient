@@ -1,5 +1,5 @@
-import axios from "axios";
-import { API_ROUTES, API_URL } from "../constants/apiRoutes";
+import { API_ROUTES } from "../constants/apiRoutes";
+import api from "./axios";
 
 export interface SaleItem {
     productId: number;
@@ -39,17 +39,17 @@ export interface CreateSaleResponse {
 
 // ✅ GET
 export async function getSales(): Promise<Sale[]> {
-    const res = await axios.get<Sale[]>(`${API_URL}${API_ROUTES.GET_SALES}`);
+    const res = await api.get<Sale[]>(API_ROUTES.GET_SALES);
     return res.data;
 }
 
 // ✅ POST
 export async function createSale(sale: CreateSaleDto): Promise<CreateSaleResponse> {
-    const res = await axios.post<CreateSaleResponse>(`${API_URL}${API_ROUTES.CREATE_SALE}`, sale);
+    const res = await api.post<CreateSaleResponse>(API_ROUTES.CREATE_SALE, sale);
     return res.data;
 }
 // ✅ GET Total Sales
 export async function getTotalSales(): Promise<number> {
-    const res = await axios.get<number>(`${API_URL}${API_ROUTES.GET_TOTAL_SALES}`);
+    const res = await api.get<number>(API_ROUTES.GET_TOTAL_SALES);
     return res.data;
 }

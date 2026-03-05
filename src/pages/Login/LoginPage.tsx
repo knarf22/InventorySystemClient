@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LoginFormUI from "./LoginFormUI";
-import api from "./axios";
+import api from "../../api/axios";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
