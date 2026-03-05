@@ -24,6 +24,13 @@ export const API_ROUTES = {
   UPDATE_STOCK: `/Stocks/update-stock`,
   GET_STOCK_IN: `/Stocks/stock-in`,
   GET_STOCK_OUT: `/Stocks/stock-out`,
+
+    // ✅ Auth routes
+  LOGIN: "/Auth/login",
+  LOGOUT: `/Auth/logout`,
+  SIGNUP: `/Auth/register`,
+  ME: `/Auth/me`,
+
 };
 
 export const API_URL = import.meta.env.VITE_API_URL ?? "https://localhost:7270/api";
