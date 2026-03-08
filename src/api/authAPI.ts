@@ -14,6 +14,11 @@ export interface SignUp extends Login {
     username : string
 }
 
+export interface AddAllowedUsers {
+    emails: string;
+    roledId : number;
+}
+
 // ✅ POST
 export async function login(login: Login): Promise<AuthResponse> {
     const res = await api.post<AuthResponse>(API_ROUTES.LOGIN, login);
@@ -31,6 +36,9 @@ export async function register(signup: SignUp): Promise<AuthResponse> {
 }
 
 
-
+export async function addAllowedUsers(user: AddAllowedUsers): Promise<AuthResponse> {
+    const res = await api.post<AuthResponse>(API_ROUTES.ADD_USER, { user });
+    return res.data;
+}
 
 

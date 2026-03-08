@@ -21,10 +21,17 @@ export const API_ROUTES = {
   GET_TOTAL_SALES: "/api/Sales/total-sales",
 
   // ✅ Stocks routes
-  GET_STOCKS: "/api/Stocks/get-stock-actions",
-  UPDATE_STOCK: `/api/Stocks/update-stock`,
-  GET_STOCK_IN: `/api/Stocks/stock-in`,
-  GET_STOCK_OUT: `/api/Stocks/stock-out`,
+  GET_STOCKS: "/Stocks/get-stock-actions",
+  UPDATE_STOCK: `/Stocks/update-stock`,
+  GET_STOCK_IN: `/Stocks/stock-in`,
+  GET_STOCK_OUT: `/Stocks/stock-out`,
+
+    // ✅ Auth routes
+  LOGIN: "/Auth/login",
+  LOGOUT: `/Auth/logout`,
+  SIGNUP: `/Auth/register`,
+  ME: `/Auth/me`,
+  ADD_USER: `/Auth/add-allowed-users`,
 };
 
 export const API_URL = import.meta.env.VITE_API_URL ?? "https://localhost:7270";
