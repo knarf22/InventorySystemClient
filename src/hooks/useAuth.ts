@@ -1,6 +1,6 @@
 import { useState } from "react";
-import type { Login, AuthResponse, SignUp } from "../api/authAPI";
-import { loginService, registerService, logoutService } from "../services/authService";
+import type { Login, AuthResponse, SignUp, AddAllowedUsers } from "../api/authAPI";
+import { loginService, registerService, logoutService, addAllowedUsersService } from "../services/authService";
 
 export function useAuth() {
     const [loading, setLoading] = useState(false);
@@ -32,6 +32,7 @@ export function useAuth() {
             setResponse(res);
             return res;
         } catch (err: any) {
+            console.log("error ni", err)
             setError(err.response?.data?.message || "Signup failed");
             return null;
         } finally {
@@ -52,10 +53,28 @@ export function useAuth() {
         }
     };
 
+    const addAllowedUsers = async (data: AddAllowedUsers) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const res = await addAllowedUsersService(data);
+            setResponse(res);
+            return res;
+        }
+        catch (err: any) {
+            setError(err.response?.data?.message || "Adding allowed users failed");
+            return null;
+        }
+        finally {
+            setLoading(false);
+        }
+    }
+
     return {
         login,
         signup,
         logout,
+        addAllowedUsers,
         loading,
         error,
         response

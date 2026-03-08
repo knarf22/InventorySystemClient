@@ -30,7 +30,7 @@ export const API_ROUTES = {
   LOGOUT: `/Auth/logout`,
   SIGNUP: `/Auth/register`,
   ME: `/Auth/me`,
-
+  ADD_USER: `/Auth/add-allowed-users`,
 };
 
 export const API_URL = import.meta.env.VITE_API_URL ?? "https://localhost:7270/api";
