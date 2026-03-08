@@ -2,37 +2,31 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LoginFormUI from "./LoginFormUI";
 import api from "./axios";
+import { useAuth } from "../../hooks/useAuth";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
 
+  const { login, error, loading } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError(null);
-    setLoading(true);
 
-    try {
-      console.log("Sending login request...");
-      await api.post("/Auth/login", { email, password });
-      console.log("Login successful, cookie should be set");
 
+    const res = await login({ email, password });
+    console.log("titores", res)
+    if (res) {
       // redirect after login
+      alert("Login failed: " + res);
+
       navigate("/", { replace: true });
-    } catch (err: any) {
-      console.error(err);
-      if (err.response?.status === 401) {
-        setError("Invalid email or password");
-      } else {
-        setError("Something went wrong");
-      }
-    } finally {
-      setLoading(false);
+    } else {
+      alert("Login failed: " + error);
     }
+
+
   };
 
   return (
