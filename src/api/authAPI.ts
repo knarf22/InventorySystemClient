@@ -2,21 +2,21 @@ import { API_ROUTES } from "../constants/apiRoutes";
 import api from "./axios";
 
 export interface AuthResponse {
-    message : string
+    message: string
 }
 
 export interface Login {
-    email : string;
-    password : string;
+    email: string;
+    password: string;
 }
 
 export interface SignUp extends Login {
-    username : string
+    username: string
 }
 
 export interface AddAllowedUsers {
-    emails: string;
-    roledId : number;
+    email: string;
+    roleId: number;
 }
 
 // ✅ POST
@@ -37,7 +37,7 @@ export async function register(signup: SignUp): Promise<AuthResponse> {
 
 
 export async function addAllowedUsers(user: AddAllowedUsers): Promise<AuthResponse> {
-    const res = await api.post<AuthResponse>(API_ROUTES.ADD_USER, { user });
+    const res = await api.post<AuthResponse>(API_ROUTES.ADD_USER, user);
     return res.data;
 }
 
