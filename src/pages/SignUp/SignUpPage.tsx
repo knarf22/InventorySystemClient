@@ -1,49 +1,31 @@
 import { useState } from "react";
 import SignUpFormUI from "./SignUpFormUI";
-import api from "../../api/axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 
 const SignUpPage = () => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
+  const { signup, error, loading } = useAuth();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError(null);
-    setLoading(true);
 
     if (password !== confirmPassword) {
       alert("Passwords do not match");
       return;
     }
-    try {
-      console.log("Sending login request...");
-      await api.post("/Auth/register", { username, email, password });
-      console.log("registration successful");
+    const res = await signup({ email, username, password });
 
-      // redirect after login
+    if (res) {
+      // redirect after signup
       navigate("/login", { replace: true });
-    } catch (err: any) {
-      console.error(err);
-      if (err.response?.status === 401) {
-        setError("Invalid email or password");
-      } else {
-        setError("Something went wrong");
-      }
-    } finally {
-      setLoading(false);
+    } else {
+      alert("Signup failed: " + error);
     }
-
-    console.log({
-      email,
-      username,
-      password,
-    });
   };
 
   return (

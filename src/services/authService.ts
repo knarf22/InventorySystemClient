@@ -10,6 +10,6 @@ export async function registerService(user: SignUp) : Promise<AuthResponse>{
     return await register(user);
 }
 
-export async function logoutSerice() : Promise<AuthResponse> {
+export async function logoutService() : Promise<AuthResponse> {
     return await logout()
 }
