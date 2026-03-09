@@ -2,6 +2,7 @@
 
 import CategoriesPage from "../pages/Categories/CategoriesPage";
 import DashboardPage from "../pages/Dashboard/DashboardPage";
+import LogsPage from "../pages/Logs/LogsPage";
 import ProductsPage from "../pages/Products/ProductsPage";
 import SalesTransactionsPage from "../pages/SalesTransactions/SalesTransactionsPage";
 import StockInPage from "../pages/Stock/StockIn/StockInPage";
@@ -18,9 +19,10 @@ export const ROUTES: RouteType[] = [
   { path: "/products", element: <ProductsPage /> },
   { path: "/categories", element: <CategoriesPage /> },
   { path: "/sales", element: <SalesTransactionsPage /> },
-  { path: "/sales-reports", element: <SalesTransactionsPage /> },
+  // { path: "/sales-reports", element: <SalesTransactionsPage /> },
   { path: "/stock-in", element: <StockInPage /> },
   { path: "/stock-out", element: <StockOutPage /> },
   { path: "/user-role", element: <UserRolePage /> },
+  { path: "/logs", element: <LogsPage /> },
 
 ];

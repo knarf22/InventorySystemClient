@@ -147,10 +147,10 @@ const Sidebar = () => {
               {openMenu === "Reports" && (
                 <div className="ml-6 mt-2 space-y-1 text-sm">
                   <SidebarSubItem
-                    icon={<Clock size={16} />}
-                    label="Logs"
-                    active={isActive("/logs")}
-                    onClick={() => handleNavigation("/logs")}
+                    icon={<FileBarChart2 size={16} />}
+                    label="Sales Reports"
+                    active={isActive("/sales-reports")}
+                    onClick={() => handleNavigation("/sales-reports")}
                   />
                   <SidebarSubItem
                     icon={<BarChart3 size={16} />}
@@ -164,11 +164,18 @@ const Sidebar = () => {
                     active={isActive("/low-stock-alerts")}
                     onClick={() => handleNavigation("/low-stock-alerts")}
                   />
+                  <SidebarSubItem
+                    icon={<Clock size={16} />}
+                    label="Logs"
+                    active={isActive("/logs")}
+                    onClick={() => handleNavigation("/logs")}
+                  />
+
                 </div>
               )}
             </SidebarItem>
 
-            
+
             {/* Users / Roles */}
             <SidebarItem
               icon={<Users />}
