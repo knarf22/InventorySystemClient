@@ -1,9 +1,10 @@
+import SalesReportsUI from "./SalesReportsUI"
 
 const SalesReportsPage = () => {
   return (
-    <div>
-      Sales Reports Page
-    </div>
+    <>
+      <SalesReportsUI />
+    </>
   )
 }
 
