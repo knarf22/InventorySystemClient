@@ -15,11 +15,14 @@ const UserRolePage = () => {
 
   const { addAllowedUsers, error, loading } = useAuth();
 
+  //check if email is null or empty string
  const addUser = async () => {
   if (!email.trim()) {
     alert("Email is required");
     return;
   }
+
+
 
   const newUser: UserRole = { id: Date.now(), email, roleId };
 
@@ -36,7 +39,7 @@ const UserRolePage = () => {
 
   // Clear input fields
   setEmail("");
-  setRoleId(roles[0].id);
+  setRoleId(roles[0].id); //to reset to admin
 };
 
   const updateUserRole = async (userId: number, newRoleId: number) => {
@@ -47,6 +50,7 @@ const UserRolePage = () => {
     // Optionally call backend to update role here
   };
 
+  console.log(roleId)
   if (loading) return <div>Loading...</div>;
   return (
     <UserRoleUI
