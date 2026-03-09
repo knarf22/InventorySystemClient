@@ -140,7 +140,8 @@ const Sidebar = () => {
               active={
                 isActive("/logs") ||
                 isActive("/stock-reports") ||
-                isActive("/low-stock-alerts")
+                isActive("/low-stocks-alert") ||
+                isActive("/sales-reports")
               }
               onClick={() => toggleMenu("Reports")}
             >
@@ -180,7 +181,7 @@ const Sidebar = () => {
             <SidebarItem
               icon={<Users />}
               label="Users / Roles"
-              active={isActive("/users")}
+              active={isActive("/user-role")}
               onClick={() => handleNavigation("/user-role")}
             />
           </nav>
