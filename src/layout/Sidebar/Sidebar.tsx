@@ -161,8 +161,8 @@ const Sidebar = () => {
                   <SidebarSubItem
                     icon={<AlertTriangle size={16} />}
                     label="Low Stock Alerts"
-                    active={isActive("/low-stock-alerts")}
-                    onClick={() => handleNavigation("/low-stock-alerts")}
+                    active={isActive("/low-stocks-alert")}
+                    onClick={() => handleNavigation("/low-stocks-alert")}
                   />
                   <SidebarSubItem
                     icon={<Clock size={16} />}
