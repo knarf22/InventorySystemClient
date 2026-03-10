@@ -47,9 +47,15 @@ const Sidebar = () => {
       {/* Sidebar */}
       <div className="flex flex-col justify-between w-64 bg-sidebar shadow-2xl transition-all duration-300">
         <div className="p-6">
-          <h1 className="text-2xl font-semibold text-primary mb-8 tracking-tight">
-            InventorySys
-          </h1>
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-9 h-9 bg-primary rounded-md flex items-center justify-center">
+              <Boxes size={20} className="text-white" />
+            </div>
+
+            <span className="text-white text-lg font-semibold">
+              InventorySys
+            </span>
+          </div>
 
           <nav className="space-y-2">
             {/* Dashboard */}
