@@ -101,7 +101,7 @@ const Sidebar = () => {
             {/* Transactions */}
             <SidebarItem
               icon={<ArrowDownCircle />}
-              label="Stock Transactions"
+              label="Transactions"
               hasChildren
               isOpen={openMenu === "Stock"}
               arrowIcon={
