@@ -2,6 +2,7 @@
 
 import CategoriesPage from "../pages/Categories/CategoriesPage";
 import DashboardPage from "../pages/Dashboard/DashboardPage";
+import LogsPage from "../pages/Logs/LogsPage";
 // import LogsPage from "../pages/Logs/LogsPage";
 import LowStocksAlertPage from "../pages/LowStocksAlert/LowStocksAlertPage";
 import ProductsPage from "../pages/Products/ProductsPage";
@@ -25,10 +26,11 @@ export const ROUTES: RouteType[] = [
   { path: "/stock-in", element: <StockInPage /> },
   { path: "/stock-out", element: <StockOutPage /> },
   { path: "/user-role", element: <UserRolePage /> },
-  // { path: "/logs", element: <LogsPage /> },
+  { path: "/logs", element: <LogsPage /> },
   { path: "/stock-reports", element: <StockReportsPage /> },
   { path: "/sales-reports", element: <SalesReportsPage /> },
   { path: "/low-stocks-alert", element: <LowStocksAlertPage /> },
+
 
 
 ];
